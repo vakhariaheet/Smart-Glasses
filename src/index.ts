@@ -16,8 +16,8 @@ touchSensor.watch( async (err, value) => {
       console.log("Image captured");
       const text = await imageToText('test.jpeg');
       console.log("Text generated");  
-      console.log("Converting to speech...");
       await sayText(text);
+        console.log("Text spoken");
   }
 });
 
