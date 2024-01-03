@@ -25,3 +25,5 @@ process.on("SIGINT", () => {
     touchSensor.unexport();
     process.exit();
 });
+
+console.log("Awaiting for touch trigger...");
