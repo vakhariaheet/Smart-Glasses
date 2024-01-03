@@ -2,6 +2,7 @@ import { Gpio } from "onoff";
 import capture from "./utils/ImageCapture";
 import imageToText from "./utils/Bard";
 import sayText from "./utils/TextToSpeech";
+import dotenv from 'dotenv';
 
 const touchSensor = new Gpio(17, "in", "both");
 
