@@ -1,8 +1,7 @@
 import { Gpio } from "onoff";
 import capture from "./utils/ImageCapture";
 import imageToText from "./utils/Bard";
-import sayText from "./utils/TextToSpeech";
-import dotenv from 'dotenv';
+import { textToSpeech,playSpeech } from "./utils/TextToSpeech";
 
 const touchSensor = new Gpio(17, "in", "both");
 
@@ -17,9 +16,13 @@ touchSensor.watch(async (err, value) => {
         console.log("Image captured");
         const text = await imageToText('test.jpeg');
         console.log("Text generated");
+        console.log("Converting text to speech...");
+        await textToSpeech(text);
+        console.log("Speech generated");
         const timeTaken = Date.now() - startTime;
         console.log(`Time taken: ${timeTaken}ms`);
-        await sayText(text);
+        console.log("Playing speech...");
+        await playSpeech();
         console.log("Text spoken");
     }
 });
