@@ -6,19 +6,22 @@ import dotenv from 'dotenv';
 
 const touchSensor = new Gpio(17, "in", "both");
 
-touchSensor.watch( async (err, value) => {
-  if (err) {
-    throw err;
-  }
-  if(!value) {
-      console.log("Capturing image...");
-      const image = await capture();
-      console.log("Image captured");
-      const text = await imageToText('test.jpeg');
-      console.log("Text generated");  
-      await sayText(text);
+touchSensor.watch(async (err, value) => {
+    if (err) {
+        throw err;
+    }
+    if (!value) {
+        const startTime = Date.now();
+        console.log("Capturing image...");
+        const image = await capture();
+        console.log("Image captured");
+        const text = await imageToText('test.jpeg');
+        console.log("Text generated");
+        const timeTaken = Date.now() - startTime;
+        console.log(`Time taken: ${timeTaken}ms`);
+        await sayText(text);
         console.log("Text spoken");
-  }
+    }
 });
 
 process.on("SIGINT", () => {
