@@ -1,7 +1,7 @@
 import { Gpio } from "onoff";
 import capture from "./utils/ImageCapture";
 import imageToText from "./utils/Bard";
-import { textToSpeech } from "./utils/TextToSpeech";
+import { textToSpeech,playSpeech } from "./utils/TextToSpeech";
 
 const touchSensor = new Gpio(17, "in", "both");
 
@@ -22,7 +22,7 @@ touchSensor.watch(async (err, value) => {
         const timeTaken = Date.now() - startTime;
         console.log(`Time taken: ${timeTaken}ms`);
         console.log("Playing speech...");
-        // await playSpeech();
+        await playSpeech();
         console.log("Text spoken");
     }
 });
