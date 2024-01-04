@@ -17,4 +17,4 @@ const textToSpeech = (text: string) => {
 //     })
 // });
 
-export { textToSpeech, playSpeech };
+export { textToSpeech };
