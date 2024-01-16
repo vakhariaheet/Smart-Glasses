@@ -4,6 +4,7 @@ import imageToText from './utils/Bard';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
 
 const touchSensor = new Gpio(17, 'in', 'both');
+const irSensor = new Gpio(27, 'in', 'both');
 
 let timer: NodeJS.Timeout;
 let count = 0;
@@ -23,6 +24,17 @@ touchSensor.watch(async (err, value) => {
 	}
 });
 
+irSensor.watch(async (err, value) => {
+	if (err) {
+		throw err;
+	}
+	if (value == 0) {
+		console.log('IR sensor triggered');
+	}
+	else {
+		console.log('IR sensor not triggered');
+	}
+});
 const tapHandler = async (count: number) => { 
 	if (count === 0) { 
 		// Long press

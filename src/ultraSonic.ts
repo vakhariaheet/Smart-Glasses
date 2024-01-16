@@ -20,7 +20,7 @@ echoPin.watch((err, value) => {
     if (err) {
         throw err;
     }
-
+    console.log('Echo pin value:', value);
     if (value === 1) {
         startTick = process.hrtime();
     } else {
