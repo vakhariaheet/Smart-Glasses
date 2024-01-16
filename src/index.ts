@@ -82,6 +82,7 @@ const singleTapHandler = async () => {
 
 process.on('SIGINT', () => {
 	touchSensor.unexport();
+	irSensor.unexport();
 	process.exit();
 });
 
