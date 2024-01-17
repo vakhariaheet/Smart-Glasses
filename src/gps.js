@@ -2,10 +2,10 @@ const gpsd = require('node-gpsd');
 
 
 const listener = new gpsd.Listener({
-  port: 2947,  // default gpsd port
-  hostname: 'localhost',  // default gpsd hostname
-  parse: true,
-  device : '/dev/ttyS0',
+  port: 2947,
+  hostname: 'localhost',
+  device: '/dev/ttyS0', // Correct path for your GPS device
+  parse: true
 });
 
 

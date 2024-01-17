@@ -24,6 +24,11 @@ The pin configuration is the following:
    - Pin 1(IO): GPIO 17
    - Pin 2(VCC): 3.3V
    - Pin 3(GND): GND
+3. GPS Module
+   - Pin 1(VCC): 5V
+   - Pin 2(RX) : TXD
+   - Pin 3(TX) : RXD
+   - Pin 4(GND): GND
 
 ## Software
 
@@ -72,3 +77,5 @@ The pin configuration is the following:
 - [Nodejs](https://nodejs.org/en/)
 - [Piper TTS](https://github.com/rhasspy/piper/)
 - [Configuring Wifi and Bluetooth in Raspberry PI ](https://www.digikey.in/en/maker/tutorials/2016/raspberry-pi-wi-fi-bluetooth-setup-how-to-configure-your-pi-4-model-b-3-model-b)
+
+
