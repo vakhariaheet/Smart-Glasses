@@ -1,8 +1,6 @@
 import { Gpio } from "onoff";
 
-const infraredSensor = new Gpio(17, 'in', 'both');
-
-let timer: NodeJS.Timeout;
+const infraredSensor = new Gpio(27, 'in', 'both');
 
 infraredSensor.watch((err, value) => {
     if (err) {

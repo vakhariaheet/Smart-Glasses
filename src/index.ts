@@ -10,46 +10,34 @@ let timer: NodeJS.Timeout;
 let count = 0;
 
 
-// touchSensor.watch(async (err, value) => {
-// 	if (err) {
-// 		throw err;
-// 	}
-// 	if (value) {
-// 		count++;
-// 		clearTimeout(timer);
-// 		timer = setTimeout(async () => { 
-// 			await tapHandler(count);
-// 			count = 0;
-// 		},300)
-// 	}
-// });
-
-irSensor.watch(async (err, value) => {
+touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;
 	}
-	console.log(value);
-	if (value == 0) {
-		console.log('IR sensor triggered');
-	}
-	else {
-		console.log('IR sensor not triggered');
+	if (value) {
+		count++;
+		clearTimeout(timer);
+		timer = setTimeout(async () => { 
+			await tapHandler(count);
+			count = 0;
+		},300)
 	}
 });
-// const tapHandler = async (count: number) => { 
-// 	if (count === 0) { 
-// 		// Long press
-// 	}
-// 	if (count === 1) {
-// 		await singleTapHandler();
-// 	}
-// 	else if (count === 2) {
-// 		// await doubleTapHandler();
-// 	}
-// 	else if (count === 3) { 
-// 		// await tripleTapHandler();
-// 	}
-// }
+
+const tapHandler = async (count: number) => { 
+	if (count === 0) { 
+		// Long press
+	}
+	if (count === 1) {
+		await singleTapHandler();
+	}
+	else if (count === 2) {
+		// await doubleTapHandler();
+	}
+	else if (count === 3) { 
+		// await tripleTapHandler();
+	}
+}
 
 const singleTapHandler = async () => { 
 	const startTime = Date.now();
