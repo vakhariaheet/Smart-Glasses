@@ -14,8 +14,11 @@ function readTemperature() {
 
 // Read temperature multiple times and average for better accuracy
 const readings = [];
+let temperature = 0;
 for (let i = 0; i < 10; i++) {
-    readings.push(readTemperature());
+    temperature = readTemperature();
+    console.log(`Temperature: ${temperature.toFixed(2)}°C`);
+    readings.push(temperature);
 }
 
 // Calculate average temperature
