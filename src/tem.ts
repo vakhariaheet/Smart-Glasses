@@ -2,6 +2,10 @@ import * as rpio from 'rpio';
 
 const sensorPin = 17; // GPIO17 or the pin you connected the OUT of LM35 to
 
+rpio.init({
+    gpiomem: false,    // Use /dev/mem (default)
+    mapping: 'gpio',   // Use the P1-P40 numbering scheme (default)
+  });
 // Set up the GPIO
 rpio.open(sensorPin, rpio.INPUT);
 
