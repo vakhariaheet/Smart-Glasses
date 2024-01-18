@@ -6,6 +6,7 @@ const sensor = new Gpio(sensorPin, 'in', 'both'); // 'both' triggers on both ris
 // Function to read temperature from LM35
 function readTemperature() {
     const reading = sensor.readSync();
+    console.log(`Reading: ${reading}`);
     const millivolts = (reading / 1) * 3300; // Assuming LM35 directly connected to GPIO without resistors
     const temperatureCelsius = millivolts / 10;
 
