@@ -1,7 +1,7 @@
 import { Gpio } from 'onoff';
 
 const sensorPin = 17; // GPIO17 or the pin you connected the OUT of LM35 to
-const sensor = new Gpio(sensorPin, 'in', 'rising');
+const sensor = new Gpio(sensorPin, 'in', 'both'); // 'both' triggers on both rising and falling edges
 
 // Function to read temperature from LM35
 function readTemperature() {
@@ -12,9 +12,17 @@ function readTemperature() {
     return temperatureCelsius;
 }
 
-// Read temperature and log it
-const temperature = readTemperature();
-console.log(`Temperature: ${temperature.toFixed(2)}°C`);
+// Read temperature multiple times and average for better accuracy
+const readings = [];
+for (let i = 0; i < 10; i++) {
+    readings.push(readTemperature());
+}
+
+// Calculate average temperature
+const averageTemperature = readings.reduce((sum, value) => sum + value, 0) / readings.length;
+
+// Log the average temperature
+console.log(`Average Temperature: ${averageTemperature.toFixed(2)}°C`);
 
 // Unexport GPIO pin
 sensor.unexport();
