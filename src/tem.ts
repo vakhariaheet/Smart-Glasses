@@ -1,18 +1,12 @@
-import * as rpio from 'rpio';
+import { Gpio } from 'onoff';
 
 const sensorPin = 17; // GPIO17 or the pin you connected the OUT of LM35 to
-
-rpio.init({
-    gpiomem: false,    // Use /dev/mem (default)
-    mapping: 'gpio',   // Use the P1-P40 numbering scheme (default)
-  });
-// Set up the GPIO
-rpio.open(sensorPin, rpio.INPUT);
+const sensor = new Gpio(sensorPin, 'in', 'rising');
 
 // Function to read temperature from LM35
 function readTemperature() {
-    const reading = rpio.read(sensorPin);
-    const millivolts = (reading / 1023) * 3300; // 3.3V is the Raspberry Pi voltage
+    const reading = sensor.readSync();
+    const millivolts = (reading / 1) * 3300; // Assuming LM35 directly connected to GPIO without resistors
     const temperatureCelsius = millivolts / 10;
 
     return temperatureCelsius;
@@ -22,5 +16,5 @@ function readTemperature() {
 const temperature = readTemperature();
 console.log(`Temperature: ${temperature.toFixed(2)}°C`);
 
-// Close GPIO pin
-rpio.close(sensorPin);
+// Unexport GPIO pin
+sensor.unexport();
