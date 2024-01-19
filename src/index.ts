@@ -37,6 +37,7 @@ const tapHandler = async (count: number) => {
 	}
 	else if (count === 2) {
 		const temperature = await readTemperature();
+		console.log(`The temperature is ${temperature} degree celsius`);
 		textToSpeech(`The temperature is ${temperature} degree celsius`);
 		await playSpeech();
 	}
