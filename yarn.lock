@@ -182,6 +182,11 @@ node-dht-sensor@^0.4.3:
   dependencies:
     node-addon-api "^1.6.3"
 
+node-gpsd@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/node-gpsd/-/node-gpsd-0.3.4.tgz#292ad49e4c4f628929e41a255df2575becaa1cd0"
+  integrity sha512-sI9hPfHiaWDmhjE1oJZnhMo7UF2vQVGl3qk0K4HbN1L8BkS0I+rd6V687eHOj/6ervXiHrhwXzYYsWdXxGy0Qg==
+
 onoff@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/onoff/-/onoff-6.0.3.tgz#b8e41aec363bebbb3d76e47d74b8ae9cea8d4280"
