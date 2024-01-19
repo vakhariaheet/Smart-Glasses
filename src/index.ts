@@ -4,7 +4,7 @@ import imageToText from './utils/Bard';
 import connectMongo from './utils/connectMongo';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
 import { readTemperature } from './utils/Temperature';
-
+import startGPS from './utils/GPS';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
 
@@ -13,6 +13,7 @@ let count = 0;
 
 
 connectMongo();
+startGPS();
 touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;
