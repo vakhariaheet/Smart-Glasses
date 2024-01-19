@@ -1,7 +1,9 @@
 import { Gpio } from 'onoff';
 import capture from './utils/ImageCapture';
 import imageToText from './utils/Bard';
+import connectMongo from './utils/connectMongo';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
+import { readTemperature } from './utils/Temperature';
 
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
@@ -10,6 +12,7 @@ let timer: NodeJS.Timeout;
 let count = 0;
 
 
+connectMongo();
 touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;
@@ -32,7 +35,9 @@ const tapHandler = async (count: number) => {
 		await singleTapHandler();
 	}
 	else if (count === 2) {
-		// await doubleTapHandler();
+		const temperature = await readTemperature();
+		textToSpeech(`The temperature is ${temperature} degree celsius`);
+		await playSpeech();
 	}
 	else if (count === 3) { 
 		// await tripleTapHandler();
