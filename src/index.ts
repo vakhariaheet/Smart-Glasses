@@ -81,6 +81,7 @@ gps.on('data', async (data: GGA | RMC | any) => {
 })
 
 parser.on('data', (data) => {
+	console.log("Parser:", data);
 	gps.update(data);
 });
 touchSensor.watch(async (err, value) => {
