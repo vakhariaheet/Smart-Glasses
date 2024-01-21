@@ -94,7 +94,7 @@ parser.on('data', (data) => {
     if ((data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC') || data.startsWith('$GNGGA')) && data.endsWith('\r\n')) {
         gps.update(data);
     } else {
-        console.log('Garbage:');
+        console.log('Garbage:',data.toString('utf8'));
     }
 });
 
