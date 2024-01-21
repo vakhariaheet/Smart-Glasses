@@ -87,14 +87,18 @@ gps.on('data', async (data) => {
         }
     }
     console.log("GPS:", data);
-   
+
 })
 
 parser.on('data', (data) => {
     if ((data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC') || data.startsWith('$GNGGA')) && data.endsWith('\r\n')) {
         gps.update(data);
     } else {
-        console.log('Garbage:',data.toString('utf8'));
+        const utf = data.toString('utf8');
+        if (utf.startsWith('$GPGGA') || utf.startsWith('$GPRMC') || utf.startsWith('$GNRMC') || utf.startsWith('$GNGGA')) {
+            gps.update(utf);
+        } else
+            console.log('Garbage:',utf);
     }
 });
 
