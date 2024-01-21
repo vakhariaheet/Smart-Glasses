@@ -71,12 +71,12 @@ gps.on('data', async (data) => {
             console.log('Last Entry Exists')
             const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
             if (distance > 0.1) {
-                await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
+                await pool.query('INSERT INTO gps (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
             }
         }
         else {
             console.log('Inserting New GGA')
-            await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
+            await pool.query('INSERT INTO gps (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
         }   
     }
     if (data.type == 'RMC') {
