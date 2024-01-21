@@ -20,11 +20,15 @@ gps.on('data', (data) => {
 })
 
 parser.on('data', (data) => {
-    console.log("Parser:", data);
-    gps.update(data);
+    if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC')) {
+        console.log('Received valid data:', data);
+        gps.update(data);
+    } else {
+        console.log('Ignored garbage value:', data);
+    }
 });
 
-port.on('error', (err) => { 
+port.on('error', (err) => {
     console.error('Error: ', err.message);
 })
 
