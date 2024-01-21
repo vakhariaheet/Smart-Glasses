@@ -16,7 +16,7 @@ gps.on('data', (data) => {
     if(data.type == 'RMC') {
         console.log("GPS:", data);
     }
-    fs.appendFileSync('gps.json', JSON.stringify(data));
+    fs.appendFileSync('gps.json', JSON.stringify(data) + '\n');
 })
 
 parser.on('data', (data) => {
