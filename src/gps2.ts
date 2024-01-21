@@ -1,6 +1,6 @@
 import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
-import {parseNmeaSentence} from 'nmea-simple';
+import { parseNmeaSentence } from 'nmea-simple';
 import GPS from 'gps';
 
 const port = new SerialPort({
@@ -12,22 +12,24 @@ const port = new SerialPort({
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 const gps = new GPS
 
-gps.on('data', (data) => { 
-    console.log("GPS:",data);
+gps.on('data', (data) => {
+    if(data.type == 'RMC') {
+        console.log("GPS:", data);
+    }
 })
 
 parser.on('data', (data) => {
-    console.log("Parser:",data);
-   gps.update(data);
+    console.log("Parser:", data);
+    gps.update(data);
 });
 
 
 port.close((err) => {
     if (err) {
-      console.error('Error closing port:', err.message);
+        console.error('Error closing port:', err.message);
     } else {
-      console.log('Serial port closed');
+        console.log('Serial port closed');
     }
-  });
-  
+});
+
 
