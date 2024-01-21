@@ -1,5 +1,5 @@
-import {SerialPort} from 'serialport';
-import  ReadLine from '@serialport/parser-readline';
+import { SerialPort } from 'serialport';
+import { ReadlineParser } from '@serialport/parser-readline';
 import nmea from 'nmea-simple';
 const port = new SerialPort({
     path: '/dev/ttyS0',
@@ -7,7 +7,7 @@ const port = new SerialPort({
 });
 
 
-const parser = port.pipe(new ReadLine.ReadlineParser({ delimiter: '\r\n' }));
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 parser.on('data', (data) => {
     const gpsData = nmea.parseNmeaSentence(data);
