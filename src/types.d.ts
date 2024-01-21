@@ -23,3 +23,18 @@ export interface TPVDATA {
     eph: number;
     sep: number;
 }
+export interface GGADate {
+  time: string;
+  lat: number;
+  lon: number;
+  alt: number;
+  quality: string;
+  satellites: number;
+  hdop: number;
+  geoidal: number;
+  age?: any;
+  stationID?: any;
+  raw: string;
+  valid: boolean;
+  type: string;
+}

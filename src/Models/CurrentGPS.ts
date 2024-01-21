@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-
-const GPSSchema = new Schema({
+import { model, Schema } from "mongoose";
+// Stores RMC data for a single pair of glasses
+const CurrentGPSSchema = new Schema({
     latitude: {
         type: Number,
         required: true,
@@ -9,23 +9,14 @@ const GPSSchema = new Schema({
         type: Number,
         required: true,
     },
-    altitude: {
-        type: Number,
-        required: true,
-    },
     speed: {
         type: Number,
         required: true,
     },
-    glassesId: {
-        type: String,
-        required: true,
-    },
-    climb: {
+    track: {
         type: Number,
         required: true,
-  
     }
 }, { timestamps: true });
 
-export default model("GPS", GPSSchema);
+export default model("CurrentGPS", CurrentGPSSchema);
