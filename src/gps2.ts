@@ -51,7 +51,7 @@ const pool = mysql.createPool({
             id INT AUTO_INCREMENT PRIMARY KEY,
             latitude FLOAT,
             longitude FLOAT,
-            altitude FLOAT,
+            speed FLOAT,
             glassesId INT,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
