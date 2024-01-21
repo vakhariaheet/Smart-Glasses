@@ -1,6 +1,6 @@
 import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
-import { parseNmeaSentence } from 'nmea-simple';
+import fs from 'fs';
 import GPS from 'gps';
 
 const port = new SerialPort({
@@ -16,6 +16,7 @@ gps.on('data', (data) => {
     if(data.type == 'RMC') {
         console.log("GPS:", data);
     }
+    fs.appendFileSync('gps.json', JSON.stringify(data));
 })
 
 parser.on('data', (data) => {
