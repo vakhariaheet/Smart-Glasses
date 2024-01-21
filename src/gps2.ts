@@ -28,7 +28,11 @@ const getDistanceFromLatLonInKm = (lat1: number, lon1: number, lat2: number, lon
 }
 
 const pool = mysql.createPool({
-   uri:process.env.DB_URI
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    port: Number(process.env.DB_PORT),
+    database: process.env.DB_NAME,
 });
 
 (async () => {
