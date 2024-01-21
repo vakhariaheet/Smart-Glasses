@@ -2,7 +2,7 @@ import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
 import fs from 'fs';
 import GPS from 'gps';
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 
 const port = new SerialPort({
     path: '/dev/ttyS0',
