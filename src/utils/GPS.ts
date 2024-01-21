@@ -84,6 +84,7 @@ const initGPS = async () => {
                 currentGPS.save();
             }
         }
+        console.log("GPS:", data);
     })
 
     parser.on('data', (data) => {
