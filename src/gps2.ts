@@ -13,10 +13,10 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 const gps = new GPS
 
 gps.on('data', (data) => {
-    // if(data.type == 'RMC') {
-    //     console.log("GPS:", data);
-    // }
-    fs.appendFileSync('gps.json', JSON.stringify(data));
+    if(data.type == 'RMC') {
+        console.log("GPS:", data);
+    }
+    // fs.appendFileSync('gps.json', JSON.stringify(data));
 })
 
 parser.on('data', (data) => {
