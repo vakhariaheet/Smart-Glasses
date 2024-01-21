@@ -2,11 +2,17 @@ import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
 import fs from 'fs';
 import GPS from 'gps';
+import mysql from 'mysql2';
 
 const port = new SerialPort({
     path: '/dev/ttyS0',
     baudRate: 9600
 });
+
+const pool = mysql.createPool({
+   uri:process.env.DB_URI
+});
+
 
 
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
