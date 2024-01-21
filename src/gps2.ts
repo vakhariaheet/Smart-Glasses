@@ -64,7 +64,7 @@ const gps = new GPS
 
 gps.on('data', async (data) => {
     if (data.type !== 'GGA' && data.type !== 'RMC') return;
-    const [ lastEntry ] = await pool.query('SELECT * FROM gpsRoute ORDER BY createdAt DESC LIMIT 1') as any;
+    const [ [lastEntry] ] = await pool.query('SELECT * FROM gpsRoute ORDER BY createdAt DESC LIMIT 1') as any;
     console.log(lastEntry);
     if (data.type == 'GGA') {
         if (lastEntry) {
