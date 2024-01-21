@@ -24,6 +24,9 @@ parser.on('data', (data) => {
     gps.update(data);
 });
 
+port.on('error', (err) => { 
+    console.error('Error: ', err.message);
+})
 
 port.close((err) => {
     if (err) {
