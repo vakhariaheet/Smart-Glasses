@@ -14,8 +14,17 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 parser.on('data', (data) => {
     console.log(data);
+    const parsed = parseNmeaSentence(data);
+    console.log(parsed);
 });
 
 
-
+port.close((err) => {
+    if (err) {
+      console.error('Error closing port:', err.message);
+    } else {
+      console.log('Serial port closed');
+    }
+  });
+  
 
