@@ -64,12 +64,11 @@ const gps = new GPS
 
 gps.on('data', async (data) => {
     if (data.type !== 'GGA' && data.type !== 'RMC') return;
-    const [ [lastEntry] ] = await pool.query('SELECT * FROM gpsRoute ORDER BY createdAt DESC LIMIT 1') as any;
-    console.log(lastEntry);
     if (data.type == 'GGA') {
-        if (lastEntry) {
+        const [ [ lastEntryForGGA ] ] = await pool.query('SELECT * FROM gps ORDER BY createdAt DESC LIMIT 1') as any;
+        if (lastEntryForGGA) {
             console.log('Last Entry Exists')
-            const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
+            const distance = getDistanceFromLatLonInKm(lastEntryForGGA.latitude, lastEntryForGGA.longitude, data.lat, data.lon);
             if (distance > 0.1) {
                 await pool.query('INSERT INTO gps (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
             }
@@ -80,10 +79,11 @@ gps.on('data', async (data) => {
         }   
     }
     if (data.type == 'RMC') {
+        const [ [ lastEntryForRMC ] ] = await pool.query('SELECT * FROM gpsRoute ORDER BY createdAt DESC LIMIT 1') as any;
         console.log('RMC');
-        if (lastEntry) {
+        if (lastEntryForRMC) {
             console.log('Last Entry Exists')
-            const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
+            const distance = getDistanceFromLatLonInKm(lastEntryForRMC.latitude, lastEntryForRMC.longitude, data.lat, data.lon);
             if (distance > 0.1) {
                 //    Store in gpsRoute table
                 await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.speed, 1]);
