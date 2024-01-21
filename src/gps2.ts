@@ -16,6 +16,7 @@ gps.on('data', data => {
 })
 
 parser.on('data', (data) => {
+    console.log(data);
     gps.updatePartial(data);
 });
 
