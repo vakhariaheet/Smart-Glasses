@@ -20,11 +20,10 @@ gps.on('data', (data) => {
 })
 
 parser.on('data', (data) => {
-    if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC')) {
-        console.log('Received valid data:', data);
+    if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC') || data.startsWith('$GNGGA')) {
         gps.update(data);
     } else {
-        console.log('Ignored garbage value:', data);
+       
     }
 });
 
