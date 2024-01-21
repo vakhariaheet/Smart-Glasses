@@ -40,18 +40,18 @@ const pool = mysql.createPool({
     await pool.query(`
         CREATE TABLE IF NOT EXISTS gps (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            latitude FLOAT,
-            longitude FLOAT,
-            altitude FLOAT,
+            latitude VARCHAR(255),
+            longitude VARCHAR(255),
+            altitude DOUBLE,
             glassesId INT,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
     await pool.query(`
         CREATE TABLE IF NOT EXISTS gpsRoute (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            latitude FLOAT,
-            longitude FLOAT,
-            speed FLOAT,
+            latitude VARCHAR(255),
+            longitude VARCHAR(255),
+            speed DOUBLE,
             glassesId INT,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
@@ -71,12 +71,12 @@ gps.on('data', async (data) => {
             console.log('Last Entry Exists')
             const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
             if (distance > 0.1) {
-                await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.alt, 1]);
+                await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
             }
         }
         else {
             console.log('Inserting New GGA')
-            await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.alt, 1]);
+            await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.alt, 1]);
         }   
     }
     if (data.type == 'RMC') {
