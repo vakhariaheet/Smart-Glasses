@@ -13,12 +13,12 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 const gps = new GPS
 
 gps.on('data', (data) => { 
-    console.log(data);
+    console.log("GPS:",data);
 })
 
 parser.on('data', (data) => {
-    console.log(data);
-   gps.updatePartial(data);
+    console.log("Parser:",data);
+   gps.update(data);
 });
 
 
