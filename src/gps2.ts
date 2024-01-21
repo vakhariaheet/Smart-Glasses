@@ -3,7 +3,8 @@ import { ReadlineParser } from '@serialport/parser-readline';
 import fs from 'fs';
 import GPS from 'gps';
 import mysql from 'mysql2/promise';
-
+import dotenv from 'dotenv';
+dotenv.config();
 const port = new SerialPort({
     path: '/dev/ttyS0',
     baudRate: 9600
@@ -26,7 +27,7 @@ const getDistanceFromLatLonInKm = (lat1: number, lon1: number, lat2: number, lon
     const d = R * c; // Distance in km
     return d;
 }
-
+console.log(process.env);
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
