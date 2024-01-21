@@ -99,12 +99,13 @@ gps.on('data', async (data) => {
 })
 
 parser.on('data', (data) => {
-    if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC')) {
-        console.log('Received valid data:', data);
-        gps.update(data);
-    } else {
-        // console.log('Ignored garbage value:', data);
-    }
+    // if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC')) {
+    //     console.log('Received valid data:', data);
+    //     gps.update(data);
+    // } else {
+    //     // console.log('Ignored garbage value:', data);
+    // }
+    gps.update(data);
 });
 
 port.on('error', (err) => {
