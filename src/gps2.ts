@@ -91,7 +91,7 @@ gps.on('data', async (data) => {
 })
 
 parser.on('data', (data) => {
-    if (data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC') || data.startsWith('$GNGGA')) {
+    if ((data.startsWith('$GPGGA') || data.startsWith('$GPRMC') || data.startsWith('$GNRMC') || data.startsWith('$GNGGA')) && data.endsWith('\r\n')) {
         gps.update(data);
     } else {
        

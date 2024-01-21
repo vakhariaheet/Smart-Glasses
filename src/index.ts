@@ -4,7 +4,6 @@ import imageToText from './utils/Bard';
 import connectMongo from './utils/connectMongo';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
 import { readTemperature } from './utils/Temperature';
-import  { getDistanceFromLatLonInKm } from './utils/GPS';
 import initGPS from './utils/GPS';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
