@@ -67,17 +67,21 @@ gps.on('data', async (data) => {
     const [lastEntry] = await pool.query('SELECT * FROM gpsRoute ORDER BY createdAt DESC LIMIT 1') as any;
     if (data.type == 'GGA') {
         if (lastEntry) {
+            console.log('Last Entry Exists')
             const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
             if (distance > 0.1) {
                 await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.alt, 1]);
             }
         }
         else {
+            console.log('Inserting New GGA')
             await pool.query('INSERT INTO gpsRoute (latitude, longitude, altitude, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.alt, 1]);
         }   
     }
     if (data.type == 'RMC') {
+        console.log('RMC');
         if (lastEntry) {
+            console.log('Last Entry Exists')
             const distance = getDistanceFromLatLonInKm(lastEntry.latitude, lastEntry.longitude, data.lat, data.lon);
             if (distance > 0.1) {
                 //    Store in gpsRoute table
@@ -85,6 +89,7 @@ gps.on('data', async (data) => {
             }
         }
         else {
+            console.log('Inserting New RMC')
             await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.speed, 1]);
         }   
     }
@@ -97,7 +102,7 @@ parser.on('data', (data) => {
         console.log('Received valid data:', data);
         gps.update(data);
     } else {
-        console.log('Ignored garbage value:', data);
+        // console.log('Ignored garbage value:', data);
     }
 });
 
