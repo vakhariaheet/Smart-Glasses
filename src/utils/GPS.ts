@@ -89,13 +89,6 @@ const initGPS = async () => {
     parser.on('data', (data) => {
         gps.update(data);
     });
-    port.close((err) => { 
-        if (err) {
-            console.error('Error closing port:', err.message);
-        } else {
-            console.log('Serial port closed');
-        }
-    });
 }
 
 export default initGPS;
