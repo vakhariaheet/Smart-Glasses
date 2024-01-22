@@ -31,9 +31,7 @@ touchSensor.watch(async (err, value) => {
 const tapHandler = async (count: number) => { 
 	if(currentStatus === 'Capturing') return;
 	if (count === 0) { 
-		console.log('Recording started');
-		currentStatus = 'Recording';
-		recording = startRecord();
+		
 	}
 	if (count === 1) {
 		if (currentStatus === 'Recording') {
@@ -44,10 +42,9 @@ const tapHandler = async (count: number) => {
 		await singleTapHandler();
 	}
 	else if (count === 2) {
-		const temperature = await readTemperature();
-		console.log(`The temperature is ${temperature} degree celsius`);
-		await textToSpeech(`The temperature is ${temperature} degree celsius`);
-		await playSpeech();
+		console.log('Recording started');
+		currentStatus = 'Recording';
+		recording = startRecord();
 	}
 	else if (count === 3) { 
 		// await tripleTapHandler();
