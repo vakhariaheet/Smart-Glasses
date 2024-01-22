@@ -1,12 +1,19 @@
-import {gTTS} from 'gtts.js';
+import gtts from 'gtts';
 import PlaySound from 'play-sound';
 
 const player = PlaySound({});
 
 const textToSpeech = async (text: string) => { 
     try {
-        const gtts = new gTTS(text, 'en');
-        await gtts.save('welcome.wav');
+        const tts = new gtts(text, 'en');
+        return new Promise((resolve, reject) => {
+            tts.save('welcome.wav', function (err:any, result:any) {
+                if (err) {
+                    reject(err);
+                }
+            });
+            resolve("Done")  
+        })
     }
     catch (err) { 
         console.error(err);
