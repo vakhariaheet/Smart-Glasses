@@ -1,13 +1,17 @@
-import { execSync } from "child_process";
+import {gTTS} from 'gtts.js';
 import PlaySound from 'play-sound';
 
 const player = PlaySound({});
-const addBackSlash = (text:string) => {
-    return text.replace(/'/g, "'\\''");
-}
 
-const textToSpeech = (text: string) => { 
-    execSync(`echo '${addBackSlash(text)}' | ~/piper/piper --model ~/piper/en_US-amy-medium.onnx --output_file welcome.wav `)
+const textToSpeech = async (text: string) => { 
+    try {
+        const gtts = new gTTS(text, 'en');
+        await gtts.save('welcome.wav');
+    }
+    catch (err) { 
+        console.error(err);
+    }
+
 }
 
 const playSpeech = async () => new Promise((resolve, reject) => {
