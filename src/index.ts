@@ -1,7 +1,6 @@
 import { Gpio } from 'onoff';
 import capture from './utils/ImageCapture';
 import imageToText from './utils/Bard';
-import connectMongo from './utils/connectMongo';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
 import { readTemperature } from './utils/Temperature';
 import initGPS from './utils/GPS';
@@ -12,7 +11,6 @@ let timer: NodeJS.Timeout;
 let count = 0;
 
 
-connectMongo();
 initGPS();
 touchSensor.watch(async (err, value) => {
 	if (err) {

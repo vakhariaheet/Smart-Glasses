@@ -27,7 +27,6 @@ const getDistanceFromLatLonInKm = (lat1: number, lon1: number, lat2: number, lon
     const d = R * c; // Distance in km
     return d;
 }
-console.log(process.env);
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -86,12 +85,12 @@ gps.on('data', async (data) => {
             const distance = getDistanceFromLatLonInKm(lastEntryForRMC.latitude, lastEntryForRMC.longitude, data.lat, data.lon);
             if (distance > 0.1) {
                 //    Store in gpsRoute table
-                await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.speed, 1]);
+                await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.speed, 1]);
             }
         }
         else {
             console.log('Inserting New RMC')
-            await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES (?, ?, ?, ?)', [data.lat, data.lon, data.speed, 1]);
+            await pool.query('INSERT INTO gpsRoute (latitude, longitude, speed, glassesId) VALUES ("?", "?", ?, ?)', [data.lat, data.lon, data.speed, 1]);
         }   
     }
     console.log(data);
