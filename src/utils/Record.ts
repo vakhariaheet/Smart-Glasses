@@ -1,10 +1,6 @@
-import * as deepgram from "@deepgram/sdk";
-import * as wit from "node-wit";
 import fs from "fs";
 import recorder from "node-record-lpcm16";
 import axios from "axios";
-const deepgramClient = deepgram.createClient(process.env.DEEPGRAM_API_KEY || '');
-const witClient = new wit.Wit({ accessToken: process.env.WIT_API_KEY || '' });
 
 
 export const startRecord = () => {
