@@ -12,7 +12,7 @@ export const startRecord = () => {
     });
     recording
         .stream()
-        .file('user.wav')
+        .pipe('user.wav')
     setTimeout(() => { 
         recording.stop();
     },10000)

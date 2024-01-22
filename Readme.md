@@ -2,7 +2,8 @@
 
 ## Introduction
 
-This project is a prototype of a smart glasses. The glasses will help blind people to navigate in their environment.
+This project is a prototype of a smart glasses. The glasses will help blind people to navigate.
+
 
 ## Hardware
 
@@ -29,7 +30,10 @@ The pin configuration is the following:
    - Pin 2(RX) : TXD
    - Pin 3(TX) : RXD
    - Pin 4(GND): GND
-
+4. Temperature Sensor
+   - Pin 1(VCC): 5V
+   - Pin 2(DATA): GPIO 27
+   - Pin 3(GND): GND
 ## Software
 
 ### Installation
@@ -43,14 +47,9 @@ The pin configuration is the following:
     curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt-get install -y nodejs
    ```
-3. Install Piper TTS on Raspberry Pi 3 Model B
+3. Install sox on Raspberry Pi 3 Model B
    ```bash
-    cd ~
-    wget https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_armv7.tar.gz
-    tar -xzvf piper_armv7.tar.gz
-    cd piper
-    wget https://papeer.s3.ap-south-1.amazonaws.com/Audio.zip
-    unzip -j Audio.zip
+    sudo apt-get install sox libsox-fmt-all
    ```
 4. Clone this repository on Raspberry Pi 3 Model B
    ```bash
@@ -75,7 +74,6 @@ The pin configuration is the following:
 - [Raspberry Pi Camera Module V2](https://www.raspberrypi.org/products/camera-module-v2/)
 - [Raspberry Pi Imager](https://www.raspberrypi.org/downloads/raspbian/)
 - [Nodejs](https://nodejs.org/en/)
-- [Piper TTS](https://github.com/rhasspy/piper/)
 - [Configuring Wifi and Bluetooth in Raspberry PI ](https://www.digikey.in/en/maker/tutorials/2016/raspberry-pi-wi-fi-bluetooth-setup-how-to-configure-your-pi-4-model-b-3-model-b)
 
 
