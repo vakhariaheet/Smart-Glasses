@@ -4,13 +4,15 @@ import imageToText from './utils/Bard';
 import { textToSpeech, playSpeech } from './utils/TextToSpeech';
 import { readTemperature } from './utils/Temperature';
 import initGPS from './utils/GPS';
+import { startRecord, stopRecord } from './utils/Record';
+import handleIntent from './utils/Intent';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
 
 let timer: NodeJS.Timeout;
 let count = 0;
-
-
+let currentStatus: 'Capturing' | 'Recording' |'' = '';
+let recording:any = null;
 initGPS();
 touchSensor.watch(async (err, value) => {
 	if (err) {
@@ -27,21 +29,27 @@ touchSensor.watch(async (err, value) => {
 });
 
 const tapHandler = async (count: number) => { 
+	if(currentStatus === 'Capturing') return;
 	if (count === 0) { 
-		// Long press
+		recording = startRecord();
 	}
 	if (count === 1) {
+		if (currentStatus === 'Recording') {
+			const entities = await stopRecord(recording);
+			await handleIntent(entities);
+		}
 		await singleTapHandler();
 	}
 	else if (count === 2) {
 		const temperature = await readTemperature();
 		console.log(`The temperature is ${temperature} degree celsius`);
-		textToSpeech(`The temperature is ${temperature} degree celsius`);
+		await textToSpeech(`The temperature is ${temperature} degree celsius`);
 		await playSpeech();
 	}
 	else if (count === 3) { 
 		// await tripleTapHandler();
 	}
+
 }
 
 const singleTapHandler = async () => { 
