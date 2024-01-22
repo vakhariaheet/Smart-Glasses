@@ -106,7 +106,7 @@
 		// "allowUnreachableCode": true,                     /* Disable error reporting for unreachable code. */
 		"paths": {
 			"gtts": ["./gtts.d.ts"],
-      "node-record-lpcm16":["/src/declarations.d.ts"]
+      "node-record-lpcm16":["./src/declarations.d.ts"]
 		},
 		/* Completeness */
 		// "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
