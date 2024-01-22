@@ -4,6 +4,7 @@ import axios from "axios";
 
 
 export const startRecord = () => {
+    const file = fs.createWriteStream('user.wav', { encoding: 'binary' });
     const recording = recorder.record({
         sampleRate: 16000,
         threshold: 0.5,
@@ -12,7 +13,7 @@ export const startRecord = () => {
     });
     recording
         .stream()
-        .pipe('user.wav')
+        .pipe(file)
     setTimeout(() => { 
         recording.stop();
     },10000)
