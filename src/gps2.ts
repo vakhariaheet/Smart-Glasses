@@ -28,7 +28,8 @@ gps.on('data', async (data: RMC) => {
 });
 
 parser.on('data', (data) => {
-    
+    const nmeaRegex = /^\$.+\*[0-9A-Fa-f]{2}$/;
+    if (!nmeaRegex.test(data)) return;
     gps.update(data);
 });
 // Handle the process termination event
