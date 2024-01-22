@@ -28,6 +28,7 @@ gps.on('data', async (data: RMC) => {
 });
 
 parser.on('data', (data) => {
+    
     gps.update(data);
 });
 // Handle the process termination event

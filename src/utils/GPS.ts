@@ -14,6 +14,7 @@ const initGPS = async () => {
     const gps = new GPS
 
     gps.on('data', async (data: RMC) => {
+      
         if (data.type !== 'RMC') return;
         console.log(data);
         await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
@@ -27,6 +28,8 @@ const initGPS = async () => {
     });
 
     parser.on('data', (data) => {
+        const nmeaRegex = /^\$.+\*[0-9A-Fa-f]{2}$/;
+        if (!nmeaRegex.test(data)) return;
         gps.update(data);
     });
 
