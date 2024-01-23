@@ -1,6 +1,8 @@
 import { exec } from "child_process";
 import { readTemperature } from "./Temperature";
 import { playSpeech, textToSpeech } from "./TextToSpeech";
+import capture from "./ImageCapture";
+import imageToText from "./Bard";
 
 
 function setVolume(volume:number) {
@@ -43,6 +45,13 @@ const handleIntent = async (entities: { [ key: string ]: any[] }) => {
             await textToSpeech(`Setting volume to ${volume}`);
             await playSpeech();
             setVolume(volume);
+            break;
+        case 'read_text':
+            await capture();
+            await textToSpeech('Reading text');
+            const text = await imageToText('test.jpeg');
+            await textToSpeech(text);
+            await playSpeech();
             break;
         
         default:

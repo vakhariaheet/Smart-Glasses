@@ -16,6 +16,7 @@ const initGPS = async () => {
     gps.on('data', async (data: RMC) => {
       
         if (data.type !== 'RMC') return;
+        console.log(data);
         await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
             latitude: data.lat,
             longitude: data.lon,
