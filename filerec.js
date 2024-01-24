@@ -7,8 +7,10 @@ var recorder = require('node-record-lpcm16');
 const file = fs.createWriteStream('user.wav', { encoding: 'binary' });
 
 const recording = recorder.record({
-    sampleRate: 48000,
-    verbose: true,
+    sampleRate: 16000,
+    threshold: 0.5,
+    silence: '1.0',
+    audioType: 'wav',
 });
 
 recording
