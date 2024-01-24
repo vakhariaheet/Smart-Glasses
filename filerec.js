@@ -1,26 +1,22 @@
 // Record audio and save to file
 
 var fs = require('fs');
-var record = require('node-record-lpcm16');
-var wav = require('wav');
+var recorder = require('node-record-lpcm16');
 
-var file = fs.createWriteStream('test.wav', { encoding: 'binary' });
 
-var fileWriter = new wav.FileWriter('test.wav', {
-    channels: 1,
+const file = fs.createWriteStream('user.wav', { encoding: 'binary' });
+
+const recording = recorder.record({
     sampleRate: 48000,
-    bitDepth: 16
+    verbose: true,
 });
 
-record.start({
-    sampleRate: 48000,
-    verbose: true
-})
-    .pipe(fileWriter);
+recording
+.stream()
+.pipe(file)
 
 setTimeout(function () {
-    record.stop();
-}
-    , 5000);
+	recording.stop();
+}, 5000);
 
 // Path: SmartGlassESraspi/record.js
