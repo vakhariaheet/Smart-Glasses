@@ -13,7 +13,7 @@ let timer: NodeJS.Timeout;
 let count = 0;
 let currentStatus: 'Capturing' | 'Recording' |'' = '';
 let recording:any = null;
-initGPS();
+// initGPS();
 touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;
