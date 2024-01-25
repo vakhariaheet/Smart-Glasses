@@ -1,5 +1,8 @@
 let Mic = require('node-microphone');
+const fs = require('fs');
 let mic = new Mic();
+
+let myWritableStream = fs.createWriteStream('test.wav');
 let micStream = mic.startRecording();
 micStream.pipe( myWritableStream );
 setTimeout(() => {
