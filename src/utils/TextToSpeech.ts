@@ -9,6 +9,7 @@ const textToSpeech = async (text: string) => {
         return new Promise((resolve, reject) => {
             tts.save('welcome.wav', function (err:any, result:any) {
                 if (err) {
+                    console.error(err);
                     reject(err);
                 }
             });
