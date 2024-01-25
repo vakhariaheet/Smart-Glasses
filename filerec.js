@@ -6,7 +6,7 @@ let myWritableStream = fs.createWriteStream('test.wav');
 let micStream = mic.startRecording();
 micStream.pipe( myWritableStream );
 setTimeout(() => {
-    logger.info('stopped recording');
+    console.log('stopping');
     mic.stopRecording();
 }, 3000);
 mic.on('info', (info) => {
