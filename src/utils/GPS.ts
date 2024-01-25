@@ -14,17 +14,21 @@ const initGPS = async () => {
     const gps = new GPS
 
     gps.on('data', async (data: RMC) => {
-      
-        if (data.type !== 'RMC') return;
-        console.log(data);
-        await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
-            latitude: data.lat,
-            longitude: data.lon,
-            speed: data.speed,
-            track: data.track,
-            glasses_id: 1,
-            code: process.env.CODE
-        });
+        try {
+            
+            if (data.type !== 'RMC') return;
+            console.log(data);
+            await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
+                latitude: data.lat,
+                longitude: data.lon,
+                speed: data.speed,
+                track: data.track,
+                glasses_id: 1,
+                code: process.env.CODE
+            });
+        } catch (err) {
+            console.error(err);
+        }
     });
 
     parser.on('data', (data) => {
