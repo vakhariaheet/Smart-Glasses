@@ -7,7 +7,7 @@ const textToSpeech = async (text: string) => {
     try {
         const tts = new gtts(text, 'en');
         return new Promise((resolve, reject) => {
-            tts.save('welcome.wav', function (err:any, result:any) {
+            tts.save('welcome.mp3', function (err:any, result:any) {
                 if (err) {
                     console.error(err);
                     reject(err);
@@ -23,7 +23,7 @@ const textToSpeech = async (text: string) => {
 }
 
 const playSpeech = async () => new Promise((resolve, reject) => {
-    player.play('welcome.wav', function (err) {
+    player.play('welcome.mp3', function (err) {
         if (err) throw err
         resolve("Done");
     })
