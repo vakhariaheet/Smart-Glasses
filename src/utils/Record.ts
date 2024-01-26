@@ -29,7 +29,8 @@ export const stopRecord = async (recording: any) => {
             'Content-Type': 'audio/wav'
         }
     });
-    console.log(resp.data);
+   
+    console.log(resp,"resp");
     const { outcomes } = resp.data;
     if (!outcomes?.length) throw new Error('No entities found');
 
