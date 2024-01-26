@@ -37,6 +37,7 @@ export const stopRecord = async (recording: any) => {
             'Authorization': `Bearer ${process.env.WIT_API_KEY}`,
             'Content-Type': 'audio/wav',
             'Transfer-Encoding': 'chunked',
+            
         },
     
     })
