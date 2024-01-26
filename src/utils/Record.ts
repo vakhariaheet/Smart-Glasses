@@ -29,12 +29,17 @@ const readFile = (path: string) => new Promise((resolve, reject) => {
 export const stopRecord = async (recording: any) => {
     recording.stop();
     const buffer = await readFile('user.wav');
-    const resp = await axios.post('https://api.wit.ai/speech?client=chromium&lang=en-us&output=json', buffer, {
+    const resp = await fetch({
+        method: 'post',
+        url: 'https://api.wit.ai/speech',
+        data: buffer,
         headers: {
-            Authorization: `Bearer ${process.env.WIT_API_KEY}`,
-            'Content-Type': 'audio/wav'
-        }
-    });
+            'Authorization': `Bearer ${process.env.WIT_API_KEY}`,
+            'Content-Type': 'audio/wav',
+            'Transfer-Encoding': 'chunked',
+        },
+    
+    })
    
     console.log(JSON.stringify(resp.data),"resp");
     const { outcomes } = resp.data;
