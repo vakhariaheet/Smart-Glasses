@@ -40,9 +40,9 @@ export const stopRecord = async (recording: any) => {
         },
     
     })
-   
-    console.log(JSON.stringify(resp.data),"resp");
-    const { outcomes } = resp.data;
+    const data = await resp.json();
+    console.log(JSON.stringify(data),"resp");
+    const { outcomes } = data;
 
     if (!outcomes?.length) throw new Error('No entities found');
 
