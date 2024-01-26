@@ -36,8 +36,9 @@ export const stopRecord = async (recording: any) => {
         }
     });
    
-    console.log(resp,"resp");
+    console.log(JSON.stringify(resp.data),"resp");
     const { outcomes } = resp.data;
+
     if (!outcomes?.length) throw new Error('No entities found');
 
     const { entities } = outcomes?.[ 0 ];
