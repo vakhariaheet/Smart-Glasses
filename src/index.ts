@@ -42,7 +42,9 @@ const tapHandler = async (count: number) => {
 				await playSpeech();
 				return;
 			}
-			await handleIntent(resp.intents,resp.entities);
+			await handleIntent(resp.intents, resp.entities);
+			currentStatus = '';
+			return;
 		}
 		await singleTapHandler();
 	}
