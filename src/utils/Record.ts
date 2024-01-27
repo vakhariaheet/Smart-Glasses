@@ -66,8 +66,9 @@ export const stopRecord = async (recording: any): Promise<WITResp | WITRespError
             'Content-Type': 'audio/wav'
         }
     });
-    fs.writeFileSync('wit.json', JSON.stringify(resp.data));
+    fs.writeFileSync('wit.json', resp.data);
     const { intents, entities } = JSON.parse(getLastChuck(resp.data));
+   console.log(JSON.parse(getLastChuck(resp.data)));
     if (!intents) return {
         message: 'No intent detected',
         isSuccess: false
