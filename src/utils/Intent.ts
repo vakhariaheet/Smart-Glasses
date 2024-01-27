@@ -7,7 +7,7 @@ import type { Entity, Intent } from "./Record";
 
 
 function setVolume(volume: number) {
-  const command = `amixer sset 'PCM' ${volume}%`;
+  const command = `amixer sset 'Master' ${volume}%`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
