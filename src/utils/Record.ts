@@ -70,7 +70,7 @@ export const stopRecord = async (recording: any): Promise<WITResp | WITRespError
     const { intents, entities } = JSON.parse(getLastChuck(resp.data));
     
    console.log(JSON.parse(getLastChuck(resp.data)));
-    if (!intents) return {
+    if (!intents.length) return {
         message: 'No intent detected',
         isSuccess: false
     };
