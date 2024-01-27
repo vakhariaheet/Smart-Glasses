@@ -29,7 +29,7 @@ const handleIntent = async (intents: Intent[], entities: Record<string,Array<Ent
 
 
   switch (intent.name) {
-    case 'get_temperature':
+    case 'wit$get_temperature':
       const temperature = await readTemperature();
       console.log(`The temperature is ${temperature} degree celsius`);
       await textToSpeech(`The temperature is ${temperature} degree celsius`);
