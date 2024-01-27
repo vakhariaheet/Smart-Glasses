@@ -12,8 +12,8 @@ const textToSpeech = async (text: string) => {
                     console.error(err);
                     reject(err);
                 }
+                else resolve("Done")  
             });
-            resolve("Done")  
         })
     }
     catch (err) { 
