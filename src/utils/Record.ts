@@ -14,39 +14,63 @@ export const startRecord = () => {
     recording
         .stream()
         .pipe(file)
-    setTimeout(() => { 
+    setTimeout(() => {
         recording.stop();
-    },10000)
+    }, 10000)
     return recording;
 }
-const readFile = (path: string) => new Promise((resolve, reject) => { 
-    fs.readFile(path, (err, data) => { 
-        if (err) reject(err);
-        resolve(data);
-    })
-})
 
-export const stopRecord = async (recording: any) => {
+const getLastChuck = (resp: string) => {
+    const lastChuck = resp.split(/\n(?={)/);
+    return lastChuck[ lastChuck.length - 1 ];
+};
+
+export interface Intent {
+    confidence: number,
+    id: string,
+    name: string
+}
+
+export interface Entity {
+    body: string;
+    confidence: number;
+    end: number;
+    entities: {};
+    id: string;
+    name: string;
+    role: string;
+    start: number;
+    type: string;
+    value: number;
+}
+
+export interface WITResp {
+    intents: Array<Intent>
+    entities: {
+        [ key: string ]: Array<Entity>
+    }
+    isSuccess: true;
+}
+
+interface WITRespError {
+    message: string;
+    isSuccess: false;
+}
+
+export const stopRecord = async (recording: any): Promise<WITResp | WITRespError> => {
     recording.stop();
-    const buffer = await readFile('user.wav');
-    const resp = await fetch({
-        method: 'post',
-        url: 'https://api.wit.ai/speech',
-        data: buffer,
+    const buffer = fs.readFileSync('user.wav');
+    const resp = await axios.post('https://api.wit.ai/speech?client=chromium&lang=en-us&output=json', buffer, {
         headers: {
-            'Authorization': `Bearer ${process.env.WIT_API_KEY}`,
-            'Content-Type': 'audio/wav',
-            'Transfer-Encoding': 'chunked',
-            
-        },
-    
-    })
-    const data = await resp.json();
-    console.log(JSON.stringify(data),"resp");
-    const { outcomes } = data;
+            Authorization: `Bearer ${process.env.WIT_API_KEY}`,
+            'Content-Type': 'audio/wav'
+        }
+    });
+    const { intents, entities } = JSON.parse(getLastChuck(resp.data));
+    if (!intents) return {
+        message: 'No intent detected',
+        isSuccess: false
+    };
 
-    if (!outcomes?.length) throw new Error('No entities found');
-
-    const { entities } = outcomes?.[ 0 ];
-    return entities;
+    return { intents, entities, isSuccess: true };
 }

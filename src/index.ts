@@ -36,8 +36,13 @@ const tapHandler = async (count: number) => {
 	if (count === 1) {
 		if (currentStatus === 'Recording') {
 			console.log('Recording stopped');
-			const entities = await stopRecord(recording);
-			await handleIntent(entities);
+			const resp = await stopRecord(recording);
+			if (!resp.isSuccess) {
+				await textToSpeech('Sorry, I did not get that');
+				await playSpeech();
+				return;
+			}
+			await handleIntent(resp.intents,resp.entities);
 		}
 		await singleTapHandler();
 	}

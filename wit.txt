@@ -1,0 +1,218 @@
+{
+  "text": "Set"
+}
+{
+  "text": "Set the"
+}
+{
+  "text": "Set the volume"
+}
+{
+  "text": "Set the volume to 50."
+}
+{
+  "entities": {},
+  "intents": [
+    {
+      "confidence": 0.5633101275805474,
+      "id": "347078298132433",
+      "name": "volume"
+    }
+  ],
+  "speech": {
+    "confidence": 0,
+    "tokens": [
+      {
+        "confidence": 0.9663,
+        "end": 540,
+        "start": 0,
+        "token": "Set"
+      }
+    ]
+  },
+  "text": "Set",
+  "traits": {}
+}
+{
+  "entities": {},
+  "intents": [],
+  "speech": {
+    "confidence": 0,
+    "tokens": [
+      {
+        "confidence": 0.9663,
+        "end": 540,
+        "start": 0,
+        "token": "Set"
+      },
+      {
+        "confidence": 0.9936,
+        "end": 720,
+        "start": 540,
+        "token": "the"
+      }
+    ]
+  },
+  "text": "Set the",
+  "traits": {}
+}
+{
+  "entities": {},
+  "intents": [
+    {
+      "confidence": 0.9061522074650742,
+      "id": "347078298132433",
+      "name": "volume"
+    }
+  ],
+  "speech": {
+    "confidence": 0,
+    "tokens": [
+      {
+        "confidence": 0.9663,
+        "end": 540,
+        "start": 0,
+        "token": "Set"
+      },
+      {
+        "confidence": 0.9936,
+        "end": 720,
+        "start": 540,
+        "token": "the"
+      },
+      {
+        "confidence": 0.9997,
+        "end": 900,
+        "start": 720,
+        "token": "volume"
+      }
+    ]
+  },
+  "text": "Set the volume",
+  "traits": {}
+}
+{
+  "entities": {
+    "wit$number:number": [
+      {
+        "body": "50",
+        "confidence": 0.9995,
+        "end": 20,
+        "entities": {},
+        "id": "1118778902831870",
+        "name": "wit$number",
+        "role": "number",
+        "start": 18,
+        "type": "value",
+        "value": 50
+      }
+    ]
+  },
+  "intents": [
+    {
+      "confidence": 0.8387991512528591,
+      "id": "347078298132433",
+      "name": "volume"
+    }
+  ],
+  "speech": {
+    "confidence": 0.9377,
+    "tokens": [
+      {
+        "confidence": 0.9705,
+        "end": 540,
+        "start": 0,
+        "token": "Set"
+      },
+      {
+        "confidence": 0.9685,
+        "end": 720,
+        "start": 540,
+        "token": "the"
+      },
+      {
+        "confidence": 0.9789,
+        "end": 900,
+        "start": 720,
+        "token": "volume"
+      },
+      {
+        "confidence": 0.9872,
+        "end": 1080,
+        "start": 900,
+        "token": "to"
+      },
+      {
+        "confidence": 0.7835,
+        "end": 1200,
+        "start": 1080,
+        "token": "50."
+      }
+    ]
+  },
+  "text": "Set the volume to 50",
+  "traits": {}
+}
+{
+  "entities": {
+    "wit$number:number": [
+      {
+        "body": "50",
+        "confidence": 0.9995,
+        "end": 20,
+        "entities": {},
+        "id": "1118778902831870",
+        "name": "wit$number",
+        "role": "number",
+        "start": 18,
+        "type": "value",
+        "value": 50
+      }
+    ]
+  },
+  "intents": [
+    {
+      "confidence": 0.8387991512528591,
+      "id": "347078298132433",
+      "name": "volume"
+    }
+  ],
+  "is_final": true,
+  "speech": {
+    "confidence": 0.9377,
+    "tokens": [
+      {
+        "confidence": 0.9705,
+        "end": 540,
+        "start": 0,
+        "token": "Set"
+      },
+      {
+        "confidence": 0.9685,
+        "end": 720,
+        "start": 540,
+        "token": "the"
+      },
+      {
+        "confidence": 0.9789,
+        "end": 900,
+        "start": 720,
+        "token": "volume"
+      },
+      {
+        "confidence": 0.9872,
+        "end": 1080,
+        "start": 900,
+        "token": "to"
+      },
+      {
+        "confidence": 0.7835,
+        "end": 1200,
+        "start": 1080,
+        "token": "50."
+      }
+    ]
+  },
+  "text": "Set the volume to 50",
+  "traits": {}
+}
