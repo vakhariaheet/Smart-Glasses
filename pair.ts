@@ -37,7 +37,7 @@ noble.on('discover', peripheral => {
                             return;
                         }
                         console.log('Subscribed for notifications');
-                        characteristic.on('data', data => {
+                        characteristic.on('data', (data:any) => {
                             console.log(data.toString('hex'));
                         })
                     })
