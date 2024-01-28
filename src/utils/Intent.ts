@@ -42,9 +42,9 @@ const handleIntent = async (intents: Intent[], entities: Record<string,Array<Ent
         await playSpeech();
         return;
       };
-      await textToSpeech(`Setting volume to ${volume}`);
-      await playSpeech();
       setVolume(volume);
+      await playSpeech();
+      await textToSpeech(`Volume updated to ${volume} percent`);
       break;
     case 'read_text':
       await capture();

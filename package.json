@@ -19,6 +19,7 @@
     "gtts": "^0.2.1",
     "libcamera": "^1.0.7",
     "nmea-simple": "^3.3.0",
+    "noble": "^1.9.1",
     "node-dht-sensor": "^0.4.3",
     "node-record-lpcm16": "^1.0.1",
     "node-tesseract-ocr": "^2.2.1",
@@ -30,6 +31,7 @@
     "wav": "^1.0.2"
   },
   "devDependencies": {
+    "@types/noble": "^0.0.44",
     "@types/node": "^20.11.5",
     "@types/node-dht-sensor": "^0.4.2",
     "@types/node-wit": "^6.0.3",
