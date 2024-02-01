@@ -1,49 +1,51 @@
-import noble from 'noble'
+import bleno from 'bleno';
+import util from 'util';
 
-noble.on('stateChange', state => {
+class PairCharacteristic extends bleno.Characteristic {
+    constructor() {
+        super({
+            uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
+            properties: [ 'read', 'write' ],
+            value: null
+        });
+    }
+
+    onReadRequest(offset: number, callback: any) {
+        console.log('PairCharacteristic - onReadRequest: value = ' + this.value?.toString('hex'));
+
+        callback(this.RESULT_SUCCESS, this.value);
+    }
+
+    onWriteRequest(data: Buffer, offset: number, withoutResponse: boolean, callback: any) {
+        this.value = data;
+
+        console.log('PairCharacteristic - onWriteRequest: value = ' + this.value.toString('hex'));
+
+        callback(this.RESULT_SUCCESS);
+    }
+}
+
+
+bleno.on('stateChange', (state: string) => {
+    console.log('on -> stateChange: ' + state);
     if (state === 'poweredOn') {
-        noble.startScanning()
+        bleno.startAdvertising('SmartGlassESraspi', [ '0000ffe0-0000-1000-8000-00805f9b34fb' ]);
     } else {
-        noble.stopScanning()
+        bleno.stopAdvertising();
     }
 });
 
-noble.on('discover', peripheral => {
-    console.log(peripheral.advertisement.localName);
-    // Connect to React Native app
-    if (peripheral.advertisement.localName === 'SmartGlass') {
-        noble.stopScanning();
-        peripheral.connect(error => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-            console.log('Connected to SmartGlass');
-            peripheral.discoverServices([ 'ffe5' ], (error, services) => {
-                if (error) {
-                    console.error(error);
-                    return;
-                }
-                const service = services[ 0 ];
-                service.discoverCharacteristics([ 'ffe9' ], (error, characteristics) => {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    const characteristic = characteristics[ 0 ];
-                    characteristic.subscribe(error => {
-                        if (error) {
-                            console.error(error);
-                            return;
-                        }
-                        console.log('Subscribed for notifications');
-                        characteristic.on('data', (data:any) => {
-                            console.log(data.toString('hex'));
-                        })
-                    })
-                })
-            })
-        })
-    }
-})
+bleno.on('advertisingStart', (error: any) => {
+    console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
 
+    if (!error) {
+        bleno.setServices([
+            new bleno.PrimaryService({
+                uuid: '0000ffe0-0000-1000-8000-00805f9b34fb',
+                characteristics: [
+                    new PairCharacteristic()
+                ]
+            })
+        ]);
+    }
+});
