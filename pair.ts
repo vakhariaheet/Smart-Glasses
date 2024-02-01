@@ -1,4 +1,4 @@
-import bleno from 'bleno';
+import bleno from '@abandonware/bleno';
 import util from 'util';
 
 class PairCharacteristic extends bleno.Characteristic {
