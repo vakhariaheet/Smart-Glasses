@@ -3,6 +3,7 @@ import util from 'util';
 
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
+
     constructor() {
         super({
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
@@ -31,10 +32,10 @@ class PairCharacteristic extends bleno.Characteristic {
         this._updateValueCallback = updateValueCallback;
     }
 
-    onUnsubscribe = function () {
-        console.log('CustomCharacteristic - onUnsubscribe');
+    onUnsubscribe() {
+        console.log('PairCharacteristic - onUnsubscribe');
         this._updateValueCallback = null;
-    };
+    }
 }
 
 
