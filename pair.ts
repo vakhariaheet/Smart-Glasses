@@ -22,6 +22,7 @@ class PairCharacteristic extends bleno.Characteristic {
     }
 
     onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
+        console.log(data.toString('hex'));
         this.value = data;
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
@@ -36,6 +37,9 @@ class PairCharacteristic extends bleno.Characteristic {
         console.log('PairCharacteristic - onUnsubscribe');
         this._updateValueCallback = null;
     }
+
+
+
 }
 
 
