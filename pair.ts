@@ -2,6 +2,10 @@ import bleno from '@abandonware/bleno';
 import util from 'util';
 import wifi from 'node-wifi';
 
+wifi.init({
+    iface: null
+});
+
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
 
