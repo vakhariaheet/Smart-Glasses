@@ -6,6 +6,25 @@ wifi.init({
     iface: null
 });
 
+const connectToWifi = (ssid: string, password: string) => new Promise((resolve, reject) => {
+    wifi.connect({ ssid, password }, (err: any) => {
+        if (err) {
+            reject(err);
+        }
+        resolve("Connected to WiFi");
+    });
+})
+
+const getWifiConnections = () => new Promise((resolve, reject) => {
+    wifi.getCurrentConnections((err: any, currentConnections: any) => {
+        if (err) {
+            reject(err);
+        }
+        resolve(currentConnections);
+    })
+});
+
+
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
 
@@ -26,7 +45,7 @@ class PairCharacteristic extends bleno.Characteristic {
         callback(this.RESULT_SUCCESS, this.value);
     }
 
-    onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
+    async onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
         console.log('Received data:', Buffer.from(data, 'hex').toString('utf8'));
         this.value = data;
         const [ ssid, password ] = Buffer.from(data, 'hex').toString('utf8').split(':');
@@ -36,13 +55,14 @@ class PairCharacteristic extends bleno.Characteristic {
             console.log('Invalid SSID or password');
             return;
         }
-        wifi.connect({ ssid, password }, () => {
-            console.log('Connected to WiFi');
-        });
-        wifi.getCurrentConnections((errr, currentConnections) => {
-            if (errr) console.log(errr);
+        try {
+            await connectToWifi(ssid, password);
+            const currentConnections = await getWifiConnections();
             console.log(currentConnections);
-        })
+        } catch (err) {
+            console.log('Error connecting to WiFi:', err);
+        }
+
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
