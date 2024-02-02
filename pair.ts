@@ -24,6 +24,9 @@ class PairCharacteristic extends bleno.Characteristic {
     onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
         console.log('Received data:', Buffer.from(data, 'hex').toString('utf8'));
         this.value = data;
+        const [ ssid, password ] = Buffer.from(data, 'hex').toString('utf8').split(':');
+        console.log('SSID:', ssid);
+        console.log('Password:', password);
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
