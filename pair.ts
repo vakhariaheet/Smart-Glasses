@@ -7,10 +7,7 @@ wifi.init({
 });
 
 const connectToWifi = (ssid: string, password: string) => new Promise((resolve, reject) => {
-    wifi.connect({ ssid, password }, (err: any) => {
-        if (err) {
-            reject(err);
-        }
+    wifi.connect({ ssid, password }, () => {
         resolve("Connected to WiFi");
     });
 })
