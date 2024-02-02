@@ -7,7 +7,7 @@ class PairCharacteristic extends bleno.Characteristic {
     constructor() {
         super({
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
-            properties: [ 'read', 'write', 'notify' ],
+            properties: [ 'read', 'write', 'notify', 'writeWithoutResponse' ],
             value: null,
 
         });
