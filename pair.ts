@@ -39,6 +39,9 @@ class PairCharacteristic extends bleno.Characteristic {
         wifi.connect({ ssid, password }, () => {
             console.log('Connected to WiFi');
         });
+        wifi.getCurrentConnections((currentConnections: any) => {
+            console.log(currentConnections);
+        })
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
