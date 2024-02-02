@@ -2,30 +2,39 @@ import bleno from '@abandonware/bleno';
 import util from 'util';
 
 class PairCharacteristic extends bleno.Characteristic {
+    private _updateValueCallback: null;
     constructor() {
         super({
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
-            properties: [ 'read', 'write' ],
-            value: null
+            properties: [ 'read', 'write', 'notify' ],
+            value: null,
+
         });
+
+        this.value = Buffer.alloc(0);
+        this._updateValueCallback = null;
     }
 
-    onReadRequest(offset: number, callback: any) {
-        console.log('PairCharacteristic - onReadRequest: value = ' + (this.value ? this.value.toString('hex') : 'null'));
-
+    onReadRequest(offset: any, callback: any) {
+        console.log('PairCharacteristic - onReadRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS, this.value);
     }
 
-    onWriteRequest(data: Buffer, offset: number, withoutResponse: boolean, callback: any) {
-        if (data) {
-            this.value = data;
-            console.log('PairCharacteristic - onWriteRequest: value = ' + this.value.toString('hex'));
-        } else {
-            console.log('PairCharacteristic - onWriteRequest: data is null or undefined');
-        }
-
+    onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
+        this.value = data;
+        console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
+
+    onSubscribe(maxValueSize: any, updateValueCallback: any) {
+        console.log('PairCharacteristic - onSubscribe');
+        this._updateValueCallback = updateValueCallback;
+    }
+
+    onUnsubscribe = function () {
+        console.log('CustomCharacteristic - onUnsubscribe');
+        this._updateValueCallback = null;
+    };
 }
 
 
