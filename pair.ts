@@ -1,5 +1,6 @@
 import bleno from '@abandonware/bleno';
 import util from 'util';
+import wifi from 'node-wifi';
 
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
@@ -27,6 +28,13 @@ class PairCharacteristic extends bleno.Characteristic {
         const [ ssid, password ] = Buffer.from(data, 'hex').toString('utf8').split(':');
         console.log('SSID:', ssid);
         console.log('Password:', password);
+        if (!ssid || !password) {
+            console.log('Invalid SSID or password');
+            return;
+        }
+        wifi.connect({ ssid, password }, () => {
+            console.log('Connected to WiFi');
+        });
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
