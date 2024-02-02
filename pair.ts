@@ -22,11 +22,12 @@ class PairCharacteristic extends bleno.Characteristic {
     }
 
     onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
-        console.log(data.toString('hex'));
+        console.log('Received data:', Buffer.from(data, 'hex').toString('utf8'));
         this.value = data;
         console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
         callback(this.RESULT_SUCCESS);
     }
+
 
     onSubscribe(maxValueSize: any, updateValueCallback: any) {
         console.log('PairCharacteristic - onSubscribe');
