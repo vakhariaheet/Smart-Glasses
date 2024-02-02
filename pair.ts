@@ -10,19 +10,23 @@ class PairCharacteristic extends bleno.Characteristic {
         });
     }
 
-    onReadRequest(offset: number, callback: any) {
-        console.log('PairCharacteristic - onReadRequest: value = ' + this.value?.toString('hex'));
+    onReadRequest(offset, callback) {
+        console.log('PairCharacteristic - onReadRequest: value = ' + (this.value ? this.value.toString('hex') : 'null'));
 
         callback(this.RESULT_SUCCESS, this.value);
     }
 
-    onWriteRequest(data: Buffer, offset: number, withoutResponse: boolean, callback: any) {
-        this.value = data;
-
-        console.log('PairCharacteristic - onWriteRequest: value = ' + this.value.toString('hex'));
+    onWriteRequest(data, offset, withoutResponse, callback) {
+        if (data) {
+            this.value = data;
+            console.log('PairCharacteristic - onWriteRequest: value = ' + this.value?.toString('hex'));
+        } else {
+            console.log('PairCharacteristic - onWriteRequest: data is null or undefined');
+        }
 
         callback(this.RESULT_SUCCESS);
     }
+
 }
 
 
