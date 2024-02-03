@@ -1,11 +1,12 @@
 import { libcamera } from 'libcamera';
-const capture = async (name ='test.jpeg') => { 
+import { playSpeech } from './TextToSpeech';
+const capture = async (name = 'test.jpeg') => {
     const resp = await libcamera.jpeg({
         config: {
             output: name
         }
     })
-    console.log(resp)
+    await playSpeech('./src/assets/sfx/capture.mp3')
     return resp;
 }
 

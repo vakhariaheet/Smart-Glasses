@@ -1,16 +1,19 @@
 import fs from "fs";
 import recorder from "node-record-lpcm16";
 import axios from "axios";
+import { playSpeech } from "./TextToSpeech";
 
 
-export const startRecord = () => {
+export const startRecord = async () => {
     const file = fs.createWriteStream('user.wav', { encoding: 'binary' });
+    await playSpeech('./src/assets/sfx/start.mp3');
     const recording = recorder.record({
         sampleRate: 16000,
         threshold: 0.5,
         silence: '1.0',
         audioType: 'wav',
     });
+
     recording
         .stream()
         .pipe(file)
@@ -59,6 +62,7 @@ interface WITRespError {
 
 export const stopRecord = async (recording: any): Promise<WITResp | WITRespError> => {
     recording.stop();
+    await playSpeech('./src/assets/sfx/stop.mp3');
     const buffer = fs.readFileSync('user.wav');
     const resp = await axios.post('https://api.wit.ai/speech?client=chromium&lang=en-us&output=json', buffer, {
         headers: {
@@ -68,8 +72,8 @@ export const stopRecord = async (recording: any): Promise<WITResp | WITRespError
     });
     fs.writeFileSync('wit.json', resp.data);
     const { intents, entities } = JSON.parse(getLastChuck(resp.data));
-    
-   console.log(JSON.parse(getLastChuck(resp.data)));
+
+    console.log(JSON.parse(getLastChuck(resp.data)));
     if (!intents.length) return {
         message: 'No intent detected',
         isSuccess: false

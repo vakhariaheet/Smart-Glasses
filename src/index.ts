@@ -1,7 +1,7 @@
 import { Gpio } from 'onoff';
 import capture from './utils/ImageCapture';
 import imageToText from './utils/Bard';
-import { textToSpeech, playSpeech } from './utils/TextToSpeech';
+import { textToSpeech, playSpeech, playSpeechSync } from './utils/TextToSpeech';
 import { readTemperature } from './utils/Temperature';
 import initGPS from './utils/GPS';
 import { startRecord, stopRecord } from './utils/Record';
@@ -11,8 +11,8 @@ const irSensor = new Gpio(27, 'in', 'falling');
 
 let timer: NodeJS.Timeout;
 let count = 0;
-let currentStatus: 'Capturing' | 'Recording' |'' = '';
-let recording:any = null;
+let currentStatus: 'Capturing' | 'Recording' | '' = '';
+let recording: any = null;
 // initGPS();
 touchSensor.watch(async (err, value) => {
 	if (err) {
@@ -21,17 +21,17 @@ touchSensor.watch(async (err, value) => {
 	if (value) {
 		count++;
 		clearTimeout(timer);
-		timer = setTimeout(async () => { 
+		timer = setTimeout(async () => {
 			await tapHandler(count);
 			count = 0;
-		},300)
+		}, 300)
 	}
 });
 
-const tapHandler = async (count: number) => { 
-	if(currentStatus === 'Capturing') return;
-	if (count === 0) { 
-		
+const tapHandler = async (count: number) => {
+	if (currentStatus === 'Capturing') return;
+	if (count === 0) {
+
 	}
 	if (count === 1) {
 		if (currentStatus === 'Recording') {
@@ -53,22 +53,24 @@ const tapHandler = async (count: number) => {
 		currentStatus = 'Recording';
 		recording = startRecord();
 	}
-	else if (count === 3) { 
+	else if (count === 3) {
 		// await tripleTapHandler();
 	}
 
 }
 
-const singleTapHandler = async () => { 
+const singleTapHandler = async () => {
 	currentStatus = 'Capturing';
 	const startTime = Date.now();
 	console.log('Capturing image...');
 	await capture();
+
 	const imageClickTime = Date.now();
 	console.log(`
 		Time taken to capture image: ${imageClickTime - startTime}ms
 		Current Elapsed Time: ${Date.now() - startTime}ms
 	`);
+	const loadingProccess = playSpeechSync('./src/assets/sfx/loading.mp3', true);
 	console.log('Image captured');
 	const text = await imageToText('test.jpeg');
 	const textClickTime = Date.now();
@@ -86,9 +88,11 @@ const singleTapHandler = async () => {
 	`);
 	console.log('Speech generated');
 	console.log('Playing speech...');
+	loadingProccess.kill();
 	await playSpeech();
 	console.log('Text spoken');
 	currentStatus = '';
+
 }
 
 process.on('SIGINT', () => {
