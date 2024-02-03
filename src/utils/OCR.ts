@@ -8,6 +8,7 @@ const config = {
 
 const imageToText = async (path: string) => {
     const text = await Tesseract.recognize(path, config);
+    console.log(`Text: ${text}`);
     return text;
 }
 export default imageToText;
