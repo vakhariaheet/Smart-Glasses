@@ -38,11 +38,19 @@ const playSpeechSync = (path?: string, loop?: boolean) => {
     const player = PlaySound({
         player: 'mplayer'
     });
-    return player.play(path || 'welcome.mp3', {
-        mplayer: [ '-loop', loop ? '0' : '999' ]
-    }, function (err) {
-        if (err) throw err;
-    })
+    const playOptions = loop ? { mplayer: [ '--loop', '999' ] } : {};
+
+    const childProcess = player.play(path || "welcome.mp3", playOptions, (err) => {
+        if (err) {
+            console.error('Error playing sound:', err);
+        }
+    });
+
+    const kill = () => {
+        childProcess.kill();
+    };
+
+    return { kill, childProcess };
 }
 
 export { textToSpeech, playSpeech, playSpeechSync };
