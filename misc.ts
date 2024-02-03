@@ -5,8 +5,8 @@ import { setTimeout } from 'timers/promises';
 const player = PlaySound({});
 
 (async () => {
-    const playSoundLoop = (path, loop = false) => {
-        let childProcess;
+    const playSoundLoop = (path: string, loop: boolean = false) => {
+        let childProcess: ChildProcess | null = null;
 
         const playSound = () => {
             childProcess = exec(`aplay ${path}`, (err) => {
