@@ -3,10 +3,10 @@ import PlaySound from 'play-sound';
 
 
 
-const textToSpeech = async (text: string) => {
+const textToSpeech = async (text: string, lang = 'en') => {
 
     try {
-        const tts = new gtts(text, 'hi');
+        const tts = new gtts(text, lang);
         return new Promise((resolve, reject) => {
             tts.save('welcome.mp3', function (err: any, result: any) {
                 if (err) {

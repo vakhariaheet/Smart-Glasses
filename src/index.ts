@@ -80,7 +80,7 @@ const singleTapHandler = async () => {
 	`);
 	console.log('Text generated');
 	console.log('Converting text to speech...');
-	await textToSpeech(text);
+	await textToSpeech(text, 'hi');
 	const speechClickTime = Date.now();
 	console.log(`
 		Time taken to generate speech: ${speechClickTime - textClickTime}ms

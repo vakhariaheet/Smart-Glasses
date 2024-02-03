@@ -23,8 +23,8 @@ async function imageToText(image: string) {
      1.generate like a person is narrating to a blind person
      2.It needs to be extremely detailed
      3.The person shouldn't know you are narrating from an image
-     4.Keep it as realistic as possible
-	 5.Don't use any words that are not in the image
+	 4.Don't use any words that are not in the image
+	 5.Don't over describe the image
 	 6.It should be in hindi which gtts can convert to speech
 	 `;
 
