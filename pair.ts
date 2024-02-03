@@ -26,7 +26,7 @@ function getWifiConnections(): Promise<any> {
 
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
-    private currentWifi: string;
+    private currentWifi: string = "";
     constructor() {
         super({
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
@@ -93,8 +93,6 @@ class PairCharacteristic extends bleno.Characteristic {
         console.log('PairCharacteristic - onUnsubscribe');
         this._updateValueCallback = null;
     }
-
-
 
 }
 
