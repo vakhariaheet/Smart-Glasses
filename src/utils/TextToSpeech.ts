@@ -1,7 +1,9 @@
 import gtts from 'gtts';
 import PlaySound from 'play-sound';
 
-const player = PlaySound({});
+const player = PlaySound({
+    player: 'mplayer'
+});
 
 const textToSpeech = async (text: string) => {
     try {
@@ -23,24 +25,19 @@ const textToSpeech = async (text: string) => {
 }
 
 const playSpeech = async (path?: string) => new Promise((resolve, reject) => {
-    const resp = player.play(path || 'welcome.mp3', function (err) {
+    player.play(path || 'welcome.mp3', function (err) {
         if (err) throw err
         resolve("Done");
     })
+
 });
 
 const playSpeechSync = (path?: string, loop?: boolean) => {
-    let resp =
-        player.play(path || 'welcome.mp3', function (err) {
-            if (err) throw err
-            if (loop) {
-                resp = playSpeechSync(path, loop).response;
-            }
-        })
-    const kill = () => {
-        resp.kill();
-    }
-    return { kill, response: resp };
+    return player.play(path || 'welcome.mp3', {
+        mplayer: [ '-loop', loop ? '0' : '999' ]
+    }, function (err) {
+        if (err) throw err;
+    })
 }
 
 export { textToSpeech, playSpeech, playSpeechSync };
