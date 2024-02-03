@@ -51,7 +51,7 @@ const tapHandler = async (count: number) => {
 	else if (count === 2) {
 		console.log('Recording started');
 		currentStatus = 'Recording';
-		recording = startRecord();
+		recording = await startRecord();
 	}
 	else if (count === 3) {
 		// await tripleTapHandler();
