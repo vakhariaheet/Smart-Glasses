@@ -12,19 +12,21 @@ const connectToWifi = (ssid: string, password: string) => new Promise((resolve, 
     });
 })
 
-const getWifiConnections = () => new Promise((resolve, reject) => {
-    wifi.getCurrentConnections((err: any, currentConnections: any) => {
-        if (err) {
-            reject(err);
-        }
-        resolve(currentConnections);
-    })
-});
+function getWifiConnections(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        wifi.getCurrentConnections((err: any, currentConnections) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(currentConnections);
+        });
+    });
+}
 
 
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
-
+    private currentWifi: string;
     constructor() {
         super({
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
@@ -32,14 +34,21 @@ class PairCharacteristic extends bleno.Characteristic {
             value: null,
 
         });
+        getWifiConnections().then((connections) => {
+            if (connections.length > 0)
+                this.currentWifi = connections[ 0 ].ssid;
+            else {
+                this.currentWifi = '';
+            }
 
+        });
         this.value = Buffer.alloc(0);
         this._updateValueCallback = null;
     }
 
     onReadRequest(offset: any, callback: any) {
         console.log('PairCharacteristic - onReadRequest: value = ' + this.value?.toString('hex'));
-        callback(this.RESULT_SUCCESS, this.value);
+        callback(this.RESULT_SUCCESS, this.currentWifi ? Buffer.from(this.currentWifi) : Buffer.alloc(0));
     }
 
     async onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
@@ -54,8 +63,18 @@ class PairCharacteristic extends bleno.Characteristic {
         }
         try {
             await connectToWifi(ssid, password);
-            const currentConnections = await getWifiConnections();
-            console.log(currentConnections);
+            const currentConnections = await getWifiConnections() as wifi.WiFiNetwork[];
+
+            const { ssid: connectedSsid } = currentConnections[ 0 ];
+            if (connectedSsid === ssid) {
+                console.log('Connected to WiFi:', ssid);
+                this.currentWifi = ssid;
+                callback(this.RESULT_SUCCESS);
+            }
+            else {
+                console.log('Failed to connect to WiFi:', ssid);
+                callback(this.RESULT_UNLIKELY_ERROR);
+            }
         } catch (err) {
             console.log('Error connecting to WiFi:', err);
         }
