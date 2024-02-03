@@ -1,18 +1,37 @@
+import { ChildProcess, exec } from 'child_process';
 import PlaySound from 'play-sound';
 import { setTimeout } from 'timers/promises';
 
 const player = PlaySound({});
 
 (async () => {
-    console.log(__dirname + '/src/assets/sfx/camera.mp3');
+    const playSoundLoop = (path, loop = false) => {
+        let childProcess;
 
-    const pro = player.play(__dirname + '/src/assets/sfx/loading.mp3', function (err) {
-        if (err) throw err
-        console.log("Done");
-    });
-    await setTimeout(3000);
+        const playSound = () => {
+            childProcess = exec(`aplay ${path}`, (err) => {
+                if (err) {
+                    console.error('Error playing sound:', err);
+                } else if (loop) {
+                    playSound(); // Play the sound again if loop is true
+                }
+            });
+        };
+
+        playSound();
+
+        const kill = () => {
+            if (childProcess) {
+                childProcess.kill();
+            }
+        };
+
+        return { kill, childProcess };
+    };
+    const res = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+    await setTimeout(4000);
+    res.kill();
     console.log('Done');
-    pro.kill();
 })();
 
 

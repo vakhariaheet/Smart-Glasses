@@ -34,11 +34,13 @@ const playSpeechSync = (path?: string, loop?: boolean) => {
         player.play(path || 'welcome.mp3', function (err) {
             if (err) throw err
             if (loop) {
-                resp = playSpeechSync(path, loop);
+                resp = playSpeechSync(path, loop).response;
             }
         })
-
-    return resp;
+    const kill = () => {
+        resp.kill();
+    }
+    return { kill, response: resp };
 }
 
 export { textToSpeech, playSpeech, playSpeechSync };
