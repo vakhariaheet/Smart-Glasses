@@ -32,7 +32,12 @@ class PairCharacteristic extends bleno.Characteristic {
             uuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
             properties: [ 'read', 'write', 'notify', 'writeWithoutResponse' ],
             value: null,
-
+            descriptors: [
+                new bleno.Descriptor({
+                    uuid: '2901',
+                    value: 'Pair with WiFi'
+                })
+            ]
         });
         getWifiConnections().then((connections) => {
             if (connections.length > 0)
@@ -47,7 +52,7 @@ class PairCharacteristic extends bleno.Characteristic {
     }
 
     onReadRequest(offset: any, callback: any) {
-        console.log('PairCharacteristic - onReadRequest: value = ' + this.value?.toString('hex'));
+        console.log('PairCharacteristic - onReadRequest: value = ');
         callback(this.RESULT_SUCCESS, this.currentWifi ? Buffer.from(this.currentWifi) : Buffer.alloc(0));
     }
 
@@ -64,7 +69,11 @@ class PairCharacteristic extends bleno.Characteristic {
         try {
             await connectToWifi(ssid, password);
             const currentConnections = await getWifiConnections() as wifi.WiFiNetwork[];
-
+            if (currentConnections.length === 0) {
+                console.log('Failed to connect to WiFi:', ssid);
+                callback(this.RESULT_UNLIKELY_ERROR);
+                return;
+            }
             const { ssid: connectedSsid } = currentConnections[ 0 ];
             if (connectedSsid === ssid) {
                 console.log('Connected to WiFi:', ssid);
@@ -90,6 +99,7 @@ class PairCharacteristic extends bleno.Characteristic {
     }
 
     onUnsubscribe() {
+
         console.log('PairCharacteristic - onUnsubscribe');
         this._updateValueCallback = null;
     }
