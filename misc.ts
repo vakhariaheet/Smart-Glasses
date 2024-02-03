@@ -28,7 +28,7 @@ const player = PlaySound({});
 
         return { kill, childProcess };
     };
-    const res = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+    const res = playSoundLoop('./src/assets/sfx/loading.mp3', true);
     await setTimeout(4000);
     res.kill();
     console.log('Done');
