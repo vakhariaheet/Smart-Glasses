@@ -1,7 +1,7 @@
 import fs from "fs";
 import recorder from "node-record-lpcm16";
-import axios from "axios";
 import { playSpeech } from "./TextToSpeech";
+import axios from "axios";
 
 
 export const startRecord = async () => {
@@ -61,6 +61,7 @@ interface WITRespError {
 }
 
 export const stopRecord = async (recording: any): Promise<WITResp | WITRespError> => {
+    if (!recording) return { message: 'No recording found', isSuccess: false };
     recording.stop();
     await playSpeech('./src/assets/sfx/stop.mp3');
     const buffer = fs.readFileSync('user.wav');
