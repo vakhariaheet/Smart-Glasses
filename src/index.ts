@@ -15,7 +15,7 @@ let timer: NodeJS.Timeout;
 let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
 let recording: any = null;
-initGPS();
+// initGPS();
 startBLE();
 initWifi();
 touchSensor.watch(async (err, value) => {
