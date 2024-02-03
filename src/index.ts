@@ -7,6 +7,7 @@ import initGPS from './utils/GPS';
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
+import { initWifi } from './utils/Wifi';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
 
@@ -16,6 +17,7 @@ let currentStatus: 'Capturing' | 'Recording' | '' = '';
 let recording: any = null;
 initGPS();
 startBLE();
+initWifi();
 touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;
