@@ -6,6 +6,7 @@ import { readTemperature } from './utils/Temperature';
 import initGPS from './utils/GPS';
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
+import { startBLE } from './utils/BLE';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
 
@@ -13,7 +14,8 @@ let timer: NodeJS.Timeout;
 let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
 let recording: any = null;
-// initGPS();
+initGPS();
+startBLE();
 touchSensor.watch(async (err, value) => {
 	if (err) {
 		throw err;

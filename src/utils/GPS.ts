@@ -2,6 +2,7 @@ import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
 import GPS, { RMC } from 'gps';
 import axios from 'axios';
+import { appendFileSync } from 'fs';
 
 const initGPS = async () => {
 
@@ -15,9 +16,9 @@ const initGPS = async () => {
 
     gps.on('data', async (data: RMC) => {
         try {
-            
+
             if (data.type !== 'RMC') return;
-            console.log(data);
+            appendFileSync('gps.log', JSON.stringify(data) + '\n');
             await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
                 latitude: data.lat,
                 longitude: data.lon,
