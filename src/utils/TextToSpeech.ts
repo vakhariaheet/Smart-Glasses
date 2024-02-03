@@ -6,7 +6,7 @@ import PlaySound from 'play-sound';
 const textToSpeech = async (text: string) => {
 
     try {
-        const tts = new gtts(text);
+        const tts = new gtts(text, 'hi');
         return new Promise((resolve, reject) => {
             tts.save('welcome.mp3', function (err: any, result: any) {
                 if (err) {
