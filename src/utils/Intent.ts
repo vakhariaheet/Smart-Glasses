@@ -2,8 +2,8 @@ import { exec } from "child_process";
 import { readTemperature } from "./Temperature";
 import { playSpeech, textToSpeech } from "./TextToSpeech";
 import capture from "./ImageCapture";
-import imageToText from "./Bard";
 import type { Entity, Intent } from "./Record";
+import imageToText from "./OCR";
 
 
 function setVolume(volume: number) {
@@ -24,7 +24,7 @@ function setVolume(volume: number) {
   });
 }
 
-const handleIntent = async (intents: Intent[], entities: Record<string,Array<Entity>>) => {
+const handleIntent = async (intents: Intent[], entities: Record<string, Array<Entity>>) => {
   const intent = intents[ 0 ];
 
 
