@@ -32,7 +32,7 @@ const initGPS = async () => {
                     userId
                 });
 
-            }, 1000 * 60);
+            }, 1000);
         } catch (err) {
             console.error(err);
         }
