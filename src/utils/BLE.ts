@@ -1,5 +1,6 @@
 import bleno from '@abandonware/bleno';
 import { connectToWifi, getWifiConnection } from './Wifi';
+import { writeFileSync } from 'fs';
 
 class PairCharacteristic extends bleno.Characteristic {
     private _updateValueCallback: null;
@@ -35,8 +36,10 @@ class PairCharacteristic extends bleno.Characteristic {
 
     async onWriteRequest(data: any, offset: any, withoutResponse: any, callback: any) {
         this.value = data;
-        const [ ssid, password ] = Buffer.from(data, 'hex').toString('utf8').split(':');
+        const [ ssid, password, userId ] = Buffer.from(data, 'hex').toString('utf8').split(':');
         console.log('SSID:', ssid);
+        console.log('UserId:', userId);
+        writeFileSync('currentUserId.txt', userId);
         if (!ssid || !password) {
             console.log('Invalid SSID or password');
             return;

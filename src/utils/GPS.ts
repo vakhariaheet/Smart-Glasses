@@ -2,10 +2,10 @@ import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
 import GPS, { RMC } from 'gps';
 import axios from 'axios';
-import { appendFileSync } from 'fs';
+import { appendFileSync, readFileSync } from 'fs';
 
 const initGPS = async () => {
-
+    let timer: NodeJS.Timeout;
     const port = new SerialPort({
         path: '/dev/ttyS0',
         baudRate: 9600
@@ -16,17 +16,23 @@ const initGPS = async () => {
 
     gps.on('data', async (data: RMC) => {
         try {
-
             if (data.type !== 'RMC') return;
             appendFileSync('gps.log', JSON.stringify(data) + '\n');
-            await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
-                latitude: data.lat,
-                longitude: data.lon,
-                speed: data.speed,
-                track: data.track,
-                glasses_id: 1,
-                code: process.env.CODE
-            });
+            clearTimeout(timer);
+            timer = setTimeout(async () => {
+                const userId = readFileSync('currentUserId.txt', 'utf8');
+                console.log('Sending GPS data');
+                await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
+                    latitude: data.lat,
+                    longitude: data.lon,
+                    speed: data.speed,
+                    track: data.track,
+                    glasses_id: 1,
+                    code: process.env.CODE,
+                    userId
+                });
+
+            }, 1000 * 60);
         } catch (err) {
             console.error(err);
         }
