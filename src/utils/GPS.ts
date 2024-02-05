@@ -18,7 +18,7 @@ const initGPS = async () => {
 
     gps.on('data', async (data: RMC) => {
         try {
-            if (data.type !== 'RMC') return;
+            if (data.type !== 'RMC' || (!data.lat || !data.lon)) return;
             appendFileSync('gps.log', JSON.stringify(data) + '\n');
             if (!makeAPICall) return;
             const userId = readFileSync('currentUserId.txt', 'utf8');
