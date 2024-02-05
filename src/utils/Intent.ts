@@ -56,6 +56,7 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
       break;
 
     default:
+      console.log(transcribe);
       if (transcribe.toLowerCase().startsWith('Detect This Currency'.toLowerCase()) || transcribe.toLowerCase().startsWith('Detect This Note'.toLowerCase())) {
         await capture();
         const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
