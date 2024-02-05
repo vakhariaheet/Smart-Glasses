@@ -36,8 +36,9 @@ const initGPS = async () => {
             setTimeout(() => {
                 makeAPICall = true;
             }, 10000);
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            appendFileSync('gps.log', err.message + '\n');
+            console.log('Error sending GPS data', err.message);
         }
     });
 
