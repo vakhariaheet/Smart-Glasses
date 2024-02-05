@@ -1,9 +1,10 @@
 import { exec } from "child_process";
 import { readTemperature } from "./Temperature";
-import { playSpeech, textToSpeech } from "./TextToSpeech";
+import { playSpeech, playSpeechSync, textToSpeech } from "./TextToSpeech";
 import capture from "./ImageCapture";
 import type { Entity, Intent } from "./Record";
 import imageToText from "./OCR";
+import { detectCurrency, generateText } from "./Bard";
 
 
 function setVolume(volume: number) {
@@ -24,7 +25,7 @@ function setVolume(volume: number) {
   });
 }
 
-const handleIntent = async (intents: Intent[], entities: Record<string, Array<Entity>>) => {
+const handleIntent = async (intents: Intent[], entities: Record<string, Array<Entity>>, transcribe: string) => {
   const intent = intents[ 0 ];
 
 
@@ -55,6 +56,23 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
       break;
 
     default:
+      if (transcribe.toLowerCase().startsWith('Detect This Currency'.toLowerCase()) || transcribe.toLowerCase().startsWith('Detect This Note'.toLowerCase())) {
+        await capture();
+        const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+        await textToSpeech('Detecting currency');
+        const text = await detectCurrency('test.jpeg');
+        await textToSpeech(text);
+        pro.kill();
+        await playSpeech();
+        return;
+      }
+      if (transcribe.toLowerCase().startsWith('Hey'.toLowerCase())) {
+        const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+        const text = await generateText(transcribe.replace(/Hey Visio/i, ''));
+        await textToSpeech(text);
+        pro.kill();
+        await playSpeech();
+      }
       console.log('Invalid intent');
   }
 }

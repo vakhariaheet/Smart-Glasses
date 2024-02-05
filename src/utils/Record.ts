@@ -53,6 +53,7 @@ export interface WITResp {
         [ key: string ]: Array<Entity>
     }
     isSuccess: true;
+    transcribe: string;
 }
 
 interface WITRespError {
@@ -72,13 +73,12 @@ export const stopRecord = async (recording: any): Promise<WITResp | WITRespError
         }
     });
     fs.writeFileSync('wit.json', resp.data);
-    const { intents, entities } = JSON.parse(getLastChuck(resp.data));
+    const { intents, entities, text } = JSON.parse(getLastChuck(resp.data));
 
-    console.log(JSON.parse(getLastChuck(resp.data)));
     if (!intents.length) return {
         message: 'No intent detected',
         isSuccess: false
     };
 
-    return { intents, entities, isSuccess: true };
+    return { intents, entities, isSuccess: true, transcribe: text };
 }

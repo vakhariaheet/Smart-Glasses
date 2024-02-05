@@ -39,4 +39,34 @@ async function imageToText(image: string) {
 	return text;
 }
 
+export const detectCurrency = async (image: string) => {
+	const model = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
+	console.log(`Generating...`)
+	const prompt = `
+	Identify the currency in the image
+	1. Respond with the currency name and denomination.
+	`;
+
+	const imageParts = [
+		fileToGenerativePart(image, 'image/jpeg'),
+	];
+
+	const result = await model.generateContent([ prompt, ...imageParts ]);
+	const response = await result.response;
+	const text = response.text();
+	console.log(`Generated: ${text}`)
+	return text;
+}
+
+
+export const generateText = async (prompt: string) => {
+	const model = genAI.getGenerativeModel({ model: 'text-ai' });
+	console.log(`Generating...`)
+	const result = await model.generateContent([ prompt ]);
+	const response = await result.response;
+	const text = response.text();
+	console.log(`Generated: ${text}`)
+	return text;
+}
+
 export default imageToText;
