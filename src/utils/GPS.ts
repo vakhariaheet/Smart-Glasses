@@ -4,6 +4,8 @@ import GPS, { RMC } from 'gps';
 import axios from 'axios';
 import { appendFileSync, readFileSync } from 'fs';
 
+let makeAPICall = true;
+
 const initGPS = async () => {
     let timer: NodeJS.Timeout;
     const port = new SerialPort({
@@ -18,21 +20,22 @@ const initGPS = async () => {
         try {
             if (data.type !== 'RMC') return;
             appendFileSync('gps.log', JSON.stringify(data) + '\n');
-            clearTimeout(timer);
-            timer = setTimeout(async () => {
-                const userId = readFileSync('currentUserId.txt', 'utf8');
-                console.log('Sending GPS data');
-                await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
-                    latitude: data.lat,
-                    longitude: data.lon,
-                    speed: data.speed,
-                    track: data.track,
-                    glasses_id: 1,
-                    code: process.env.CODE,
-                    userId
-                });
-
-            }, 1000);
+            if (!makeAPICall) return;
+            const userId = readFileSync('currentUserId.txt', 'utf8');
+            console.log('Sending GPS data');
+            await axios.post(`${process.env.BACKEND_URL}/api/update-coors`, {
+                latitude: data.lat,
+                longitude: data.lon,
+                speed: data.speed,
+                track: data.track,
+                glasses_id: 1,
+                code: process.env.CODE,
+                userId
+            });
+            makeAPICall = false;
+            setTimeout(() => {
+                makeAPICall = true;
+            }, 10000);
         } catch (err) {
             console.error(err);
         }
