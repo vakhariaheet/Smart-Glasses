@@ -39,11 +39,7 @@ const server = createServer(
                 mode: 's'
             });
 
-            const stream = recording.stream().pipe(lame) as Stream;
-            stream.on('data', (data) => {
-                res.write(`--frame\r\nContent-Type: audio/wav\r\nContent-Length: ${data.length}\r\n\r\n`);
-                res.write(data);
-            })
+            const stream = recording.stream().pipe(lame).pipe(res);
 
             req.on('error', (err) => {
                 console.error(err);
