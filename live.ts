@@ -17,3 +17,5 @@ const runApp = async () => {
     })
     await streamCamera.startCapture();
 };
+
+runApp();
