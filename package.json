@@ -26,6 +26,7 @@
     "node-wifi": "^2.0.16",
     "node-wit": "^6.6.0",
     "onoff": "^6.0.3",
+    "pi-camera-connect": "^0.3.4",
     "play-sound": "^1.1.6",
     "qs": "^6.11.2",
     "raspivid-stream": "^0.2.1",
