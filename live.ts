@@ -43,7 +43,7 @@ const server = createServer(
 
             const stream = recording.stream().pipe(passThroughStream).pipe(lame);
 
-            stream.on('data', (data) => {
+            stream.on('data', (data: any) => {
                 if (!res.writableEnded) {
                     res.write(data);
                 }
