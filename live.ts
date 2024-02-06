@@ -13,9 +13,8 @@ const server = createServer(
         if (req.url === '/video') {
             const camera = new StreamCamera({
                 codec: Codec.MJPEG,
-                width: 640,
-                height: 480,
-                rotation: 180,
+                width: 1920,
+                height: 1080,
             });
             await camera.startCapture();
             res.writeHead(200, {
