@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { StreamCamera, Codec, StillCamera } from 'pi-camera-connect';
 import { Lame } from 'node-lame';
 import recorder from 'node-record-lpcm16';
-import { Stream } from "stream";
+import { PassThrough, Stream } from "stream";
 
 
 const PORT = 4040;
@@ -33,13 +33,21 @@ const server = createServer(
                 silence: '1.0',
                 audioType: 'wav',
             })
+            const passThroughStream = new PassThrough();
             const lame = new Lame({
                 output: 'buffer',
                 bitrate: 192,
                 mode: 's'
-            });
+            })
 
-            const stream = recording.stream().pipe(lame).pipe(res);
+
+            const stream = recording.stream().pipe(passThroughStream).pipe(lame);
+
+            stream.on('data', (data) => {
+                if (!res.writableEnded) {
+                    res.write(data);
+                }
+            })
 
             req.on('error', (err) => {
                 console.error(err);
