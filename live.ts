@@ -1,5 +1,5 @@
 import { createServer } from "http";
-import { StreamCamera, Codec } from 'pi-camera-connect';
+import { StreamCamera, Codec, StillCamera } from 'pi-camera-connect';
 
 
 const PORT = 4040;
@@ -11,23 +11,15 @@ const PORT = 4040;
 const server = createServer(
     async (req, res) => {
         if (req.url === '/video') {
-            const camera = new StreamCamera({
-                codec: Codec.H264
+            const buffer = await new StillCamera({
+                width: 1920,
+                height: 1080,
+                rotation: 180,
 
-            })
-            const readStream = camera.createStream();
+            }).takeImage();
             res.writeHead(200, {
-                'Content-Type': 'video/mp4',
-                'Connection': 'keep-alive',
-                'Transfer-Encoding': 'chunked'
-            });
-            readStream.pipe(res);
-            await camera.startCapture();
-            console.log('Camera started');
-            res.on('error', async (e) => {
-                console.log('Error', e);
-                await camera.stopCapture();
-                console.log('Camera stopped');
+                'Content-Type': 'image/jpeg',
+                'Content-Length': buffer.length,
             });
         }
         else {
