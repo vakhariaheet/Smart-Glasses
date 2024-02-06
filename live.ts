@@ -1,21 +1,16 @@
-import { StreamCamera, Codec } from "pi-camera-connect";
-import * as fs from "fs";
-import { io } from "socket.io-client";
+import { createServer } from "http";
+import { StreamCamera } from 'pi-camera-connect';
 
-// Capture 5 seconds of H264 video and save to disk
-const runApp = async () => {
-    const socket = io('http://192.168.1.5:3000');
-    const streamCamera = new StreamCamera({
-        codec: Codec.H264
-    });
 
-    const videoStream = streamCamera.createStream();
+const PORT = 4040;
 
-    videoStream.on("data", (data) => {
-        console.log('Video data size:', data.length);
-        socket.emit('video', data);
-    })
-    await streamCamera.startCapture();
-};
+const server = createServer(
+    (req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('Hello, world!');
+    }
+);
 
-runApp();
+server.listen(PORT, () => {
+    console.log('Listening on port', PORT);
+});
