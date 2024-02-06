@@ -12,7 +12,7 @@ const runApp = async () => {
     const videoStream = streamCamera.createStream();
 
     videoStream.on("data", (data) => {
-        console.log('video', data);
+        console.log('Video data size:', data.length);
         socket.emit('video', data);
     })
     await streamCamera.startCapture();
