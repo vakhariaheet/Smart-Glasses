@@ -1,6 +1,6 @@
-const io = require('socket.io-client');
-const { StreamCamera, Codec, Flip, SensorMode } = require('pi-camera-connect');
-const socket = io.connect('http://xxx.xxx.xxx.xxx:3000/iot');
+import { io } from 'socket.io-client';
+import { StreamCamera, Codec, Flip, SensorMode } from 'pi-camera-connect';
+const socket = io('http://localhost:3000');
 
 const streamCamera = new StreamCamera({
     codec: Codec.MJPEG,
@@ -18,7 +18,7 @@ socket.on('connect', () => {
 
 
 streamCamera.on('frame', (data: any) => {
-    socket.binary(true).emit('video', "data:image/jpeg;base64," + data.toString("base64"));
+    socket.emit('video', "data:image/jpeg;base64," + data.toString("base64"));
 });
 
 
