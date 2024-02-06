@@ -11,16 +11,24 @@ const PORT = 4040;
 const server = createServer(
     async (req, res) => {
         if (req.url === '/video') {
-            const buffer = await new StillCamera({
-                width: 1920,
-                height: 1080,
+            const camera = new StreamCamera({
+                codec: Codec.MJPEG,
+                width: 640,
+                height: 480,
                 rotation: 180,
-
-            }).takeImage();
-            res.writeHead(200, {
-                'Content-Type': 'image/jpeg',
-                'Content-Length': buffer.length,
             });
+            await camera.startCapture();
+            res.writeHead(200, {
+                'Content-Type': 'multipart/x-mixed-replace; boundary=frame'
+            });
+            camera.on('frame', (image) => {
+                res.write(`--frame\r\nContent-Type: image/jpeg\r\nContent-Length: ${image.length}\r\n\r\n`);
+                res.write(image);
+            });
+
+            req.on('error', (err) => {
+                console.error(err);
+            })
         }
         else {
             res.writeHead(404);
