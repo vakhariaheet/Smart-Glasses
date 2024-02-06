@@ -12,21 +12,13 @@ const streamCamera = new StreamCamera({
 socket.on('connect', () => {
     socket.sendBuffer = [];
 
-    socket.emit("pi-cam-init", "Cam-1");
 
     console.log("Connected to the server!" + socket.id);
 })
 
-socket.on('new-consumer', (data) => {
-    console.log(data + ' has join the stream');
-});
 
-socket.on('consumer-left', (data) => {
-    console.log(data + ' has left the stream');
-});
-
-streamCamera.on('frame', (data) => {
-    socket.binary(true).emit('video', 'Cam-1', "data:image/jpeg;base64," + data.toString("base64"));
+streamCamera.on('frame', (data: any) => {
+    socket.binary(true).emit('video', "data:image/jpeg;base64," + data.toString("base64"));
 });
 
 
