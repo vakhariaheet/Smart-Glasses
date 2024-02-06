@@ -24,8 +24,8 @@ const server = createServer(
             readStream.pipe(res);
             await camera.startCapture();
             console.log('Camera started');
-            res.on('close', async () => {
-                console.log('Connection closed');
+            res.on('error', async (e) => {
+                console.log('Error', e);
                 await camera.stopCapture();
                 console.log('Camera stopped');
             });
