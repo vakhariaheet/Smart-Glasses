@@ -44,7 +44,7 @@ const server = createServer(async (req, res) => {
             .pipe(passThroughStream)
             .pipe(lame);
 
-        stream.on('data', (data) => {
+        stream.on('data', (data: any) => {
             if (!res.writableEnded) {
                 res.write(data);
             }
@@ -54,13 +54,13 @@ const server = createServer(async (req, res) => {
             res.end();
         });
 
-        stream.on('error', (err) => {
+        stream.on('error', (err: any) => {
             console.error('Audio stream error:', err);
             res.writeHead(500);
             res.end();
         });
 
-        req.on('error', (err) => {
+        req.on('error', (err: any) => {
             console.error('Request error:', err);
         });
 
