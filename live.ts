@@ -1,9 +1,19 @@
-import raspividStream from 'raspivid-stream';
-import { io } from 'socket.io-client';
+import { StreamCamera, Codec } from "pi-camera-connect";
+import * as fs from "fs";
+import { io } from "socket.io-client";
 
-const socket = io('http://192.168.1.5:3000');
+// Capture 5 seconds of H264 video and save to disk
+const runApp = async () => {
+    const socket = io('http://192.168.1.5:3000');
+    const streamCamera = new StreamCamera({
+        codec: Codec.H264
+    });
 
+    const videoStream = streamCamera.createStream();
 
-setInterval(() => {
-    socket.emit('video', 'Hello, world!');
-}, 1000)
+    videoStream.on("data", (data) => {
+        console.log('video', data);
+        socket.emit('video', data);
+    })
+    await streamCamera.startCapture();
+};
