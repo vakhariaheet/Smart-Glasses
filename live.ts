@@ -1,9 +1,10 @@
 import { createServer } from "http";
 import { StreamCamera, Codec, StillCamera } from 'pi-camera-connect';
+import { Lame } from 'node-lame';
+import { Recorder } from 'node-record-lpcm16';
 
 
 const PORT = 4040;
-
 
 
 
@@ -24,7 +25,23 @@ const server = createServer(
                 res.write(`--frame\r\nContent-Type: image/jpeg\r\nContent-Length: ${image.length}\r\n\r\n`);
                 res.write(image);
             });
+            // Audio stream setup
+            const recorder = new Recorder({
+                sampleRate: 44100,
+                channels: 2,
+                bitDepth: 16,
+                recordProgram: 'rec',
+                silence: 0,
+                thresholdStart: 0,
+                thresholdEnd: 0
+            });
+            const lame = new Lame({
+                output: 'buffer',
+                bitrate: 192,
+                mode: 's'
+            });
 
+            recorder.start().pipe(lame).pipe(res);
             req.on('error', (err) => {
                 console.error(err);
             })
