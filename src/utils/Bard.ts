@@ -60,7 +60,7 @@ export const detectCurrency = async (image: string) => {
 
 
 export const generateText = async (prompt: string) => {
-	const model = genAI.getGenerativeModel({ model: 'text-ai' });
+	const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 	console.log(`Generating...`)
 	const result = await model.generateContent([ prompt ]);
 	const response = await result.response;

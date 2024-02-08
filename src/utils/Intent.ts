@@ -54,26 +54,36 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
       await textToSpeech(text);
       await playSpeech();
       break;
+    case 'currency': {
+      await capture();
+      await textToSpeech('Detecting currency');
+      const text = await detectCurrency('test.jpeg');
+      await textToSpeech(text);
+      await playSpeech();
+      break;
+    }
+    case 'gpt':
+      {
+        const prompt = transcribe.replace(/Hey Visio/i, '');
+        const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+        try {
 
+          const text = await generateText(prompt);
+          await textToSpeech(text);
+        } catch (e) {
+          console.log(e);
+          pro.kill();
+          await textToSpeech('Sorry, I did not get that');
+          await playSpeech();
+          return;
+
+
+        }
+        break;
+      }
     default:
-      console.log(transcribe,entities,intent);
-      if (transcribe.toLowerCase().startsWith('Detect This Currency'.toLowerCase()) || transcribe.toLowerCase().startsWith('Detect This Note'.toLowerCase())) {
-        await capture();
-        const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
-        await textToSpeech('Detecting currency');
-        const text = await detectCurrency('test.jpeg');
-        await textToSpeech(text);
-        pro.kill();
-        await playSpeech();
-        return;
-      }
-      if (transcribe.toLowerCase().startsWith('Hey'.toLowerCase())) {
-        const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
-        const text = await generateText(transcribe.replace(/Hey Visio/i, ''));
-        await textToSpeech(text);
-        pro.kill();
-        await playSpeech();
-      }
+      console.log(transcribe, entities, intent);
+
       console.log('Invalid intent');
   }
 }
