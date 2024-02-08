@@ -67,9 +67,9 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
         const prompt = transcribe.replace(/Hey Visio/i, '');
         const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
         try {
-          pro.kill();
           const text = await generateText(prompt);
           await textToSpeech(text);
+          pro.kill();
           await playSpeech();
         } catch (e) {
           console.log(e);

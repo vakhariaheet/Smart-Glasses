@@ -66,6 +66,8 @@ export const generateText = async (prompt: string) => {
 	1. Generate a text based on the prompt
 	2. If there is Something like ask visio or hey visio remove it
 	3. prompt: ${prompt}
+	4. Generate text should be short and precise under 100 words unless previously specified.
+	5. Don't say like here is the generated text
 	` ]);
 	const response = await result.response;
 	const text = response.text();

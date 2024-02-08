@@ -14,6 +14,7 @@ const irSensor = new Gpio(27, 'in', 'falling');
 let timer: NodeJS.Timeout;
 let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
+let isACommandRunning = false;
 let recording: any = null;
 initGPS();
 startBLE();
@@ -40,6 +41,7 @@ const tapHandler = async (count: number) => {
 	if (count === 1) {
 		if (currentStatus === 'Recording') {
 			console.log('Recording stopped');
+
 			const resp = await stopRecord(recording);
 			if (!resp.isSuccess) {
 				await textToSpeech('Sorry, I did not get that');
@@ -48,14 +50,17 @@ const tapHandler = async (count: number) => {
 			}
 			await handleIntent(resp.intents, resp.entities, resp.transcribe);
 			currentStatus = '';
+			isACommandRunning = false;
 			return;
 		}
 		await singleTapHandler();
 	}
-	else if (count === 2) {
+	else if (count === 2 && !isACommandRunning) {
+		isACommandRunning = true;
 		console.log('Recording started');
 		currentStatus = 'Recording';
 		recording = await startRecord();
+
 	}
 	else if (count === 3) {
 		// await tripleTapHandler();
@@ -64,6 +69,7 @@ const tapHandler = async (count: number) => {
 }
 
 const singleTapHandler = async () => {
+	isACommandRunning = true;
 	currentStatus = 'Capturing';
 	const startTime = Date.now();
 	console.log('Capturing image...');
@@ -96,7 +102,7 @@ const singleTapHandler = async () => {
 	await playSpeech();
 	console.log('Text spoken');
 	currentStatus = '';
-
+	isACommandRunning = false;
 }
 
 process.on('SIGINT', () => {
