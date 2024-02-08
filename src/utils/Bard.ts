@@ -62,7 +62,11 @@ export const detectCurrency = async (image: string) => {
 export const generateText = async (prompt: string) => {
 	const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 	console.log(`Generating...`)
-	const result = await model.generateContent([ prompt ]);
+	const result = await model.generateContent([ `
+	1. Generate a text based on the prompt
+	2. If there is Something like ask visio or hey visio remove it
+	3. prompt: ${prompt}
+	` ]);
 	const response = await result.response;
 	const text = response.text();
 	console.log(`Generated: ${text}`)
