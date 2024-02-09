@@ -45,6 +45,8 @@ const tapHandler = async (count: number) => {
 
 			const resp = await stopRecord(recording);
 			if (!resp.isSuccess) {
+				isACommandRunning = false;
+				currentStatus = '';
 				await textToSpeech('Sorry, I did not get that');
 				await playSpeech();
 				return;
