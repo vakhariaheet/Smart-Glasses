@@ -87,9 +87,15 @@ export const getPlaceInfo = async (q: string) => {
     const latLong = `${gps.currentLocation?.lat},${gps.currentLocation?.lng}`;
     const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${q}&key=${process.env.GOOGLE_MAPS_API_KEY}&radius=20000&location=${latLong},&origin=${latLong}&region=in&components=country:in&limit=1`);
     const data = await response.json() as PlacesAPIResponse;
+
     const firstPlace = data.predictions[ 0 ];
     const directionsResp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${latLong}&destination=place_id:${firstPlace.place_id}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
     const directionsData = await directionsResp.json() as DirectionsAPIResponse;
+    if (directionsData.routes.length === 0) {
+        await textToSpeech('No place found please try again');
+        await playSpeech();
+        return;
+    };
     const newGPS: DBGPS = {
         ...gps,
         destinationName: firstPlace.description,
