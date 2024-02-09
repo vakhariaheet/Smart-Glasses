@@ -59,10 +59,11 @@ export interface WITResp {
 interface WITRespError {
     message: string;
     isSuccess: false;
+    transcribe: string;
 }
 
 export const stopRecord = async (recording: any): Promise<WITResp | WITRespError> => {
-    if (!recording) return { message: 'No recording found', isSuccess: false };
+    if (!recording) return { message: 'No recording found', isSuccess: false, transcribe: '' };
     recording.stop();
     await playSpeech('./src/assets/sfx/stop.mp3');
     const buffer = fs.readFileSync('user.wav');
@@ -77,7 +78,8 @@ export const stopRecord = async (recording: any): Promise<WITResp | WITRespError
 
     if (!intents.length) return {
         message: 'No intent detected',
-        isSuccess: false
+        isSuccess: false,
+        transcribe: text
     };
 
     return { intents, entities, isSuccess: true, transcribe: text };
