@@ -50,7 +50,7 @@ const playSpeechSync = (path?: string, loop?: boolean) => {
         childProcess.kill();
     };
 
-    return { kill, childProcess };
+    return { kill, childProcess, pid: childProcess.pid };
 }
 
 export { textToSpeech, playSpeech, playSpeechSync };

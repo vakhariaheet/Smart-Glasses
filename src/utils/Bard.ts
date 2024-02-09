@@ -25,7 +25,6 @@ async function imageToText(image: string) {
      3.The person shouldn't know you are narrating from an image
 	 4.Don't use any words that are not in the image
 	 5.Don't over describe the image
-	 6.It should be in hindi which gtts can convert to speech
 	 `;
 
 	const imageParts = [

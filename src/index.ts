@@ -8,6 +8,8 @@ import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
 import { initWifi } from './utils/Wifi';
+import DB from './utils/DB';
+import getDB from './utils/DB';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
 
@@ -81,6 +83,7 @@ const singleTapHandler = async () => {
 		Current Elapsed Time: ${Date.now() - startTime}ms
 	`);
 	const loadingProccess = playSpeechSync('./src/assets/sfx/loading.mp3', true);
+	await (await getDB()).setCurrentProcessId(loadingProccess.pid || null);
 	console.log('Image captured');
 	const text = await imageToText('test.jpeg');
 	const textClickTime = Date.now();
@@ -90,7 +93,7 @@ const singleTapHandler = async () => {
 	`);
 	console.log('Text generated');
 	console.log('Converting text to speech...');
-	await textToSpeech(text, 'hi');
+	await textToSpeech(text);
 	const speechClickTime = Date.now();
 	console.log(`
 		Time taken to generate speech: ${speechClickTime - textClickTime}ms
@@ -99,6 +102,7 @@ const singleTapHandler = async () => {
 	console.log('Speech generated');
 	console.log('Playing speech...');
 	loadingProccess.kill();
+	await (await getDB()).setCurrentProcessId(null);
 	await playSpeech();
 	console.log('Text spoken');
 	currentStatus = '';

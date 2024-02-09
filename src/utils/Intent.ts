@@ -5,6 +5,7 @@ import capture from "./ImageCapture";
 import type { Entity, Intent } from "./Record";
 import imageToText from "./OCR";
 import { detectCurrency, generateText } from "./Bard";
+import { getPlaceInfo } from "./Maps";
 
 
 function setVolume(volume: number) {
@@ -62,6 +63,15 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
       await playSpeech();
       break;
     }
+    case 'maps':
+      {
+        const place = entities[ 'wit$location:location' ][ 0 ].body;
+        console.log(place);
+        await textToSpeech(`Getting directions to ${place}`);
+        await playSpeech();
+        await getPlaceInfo(place);
+        break;
+      }
     case 'gpt':
       {
         const prompt = transcribe.replace(/Hey Visio/i, '');
