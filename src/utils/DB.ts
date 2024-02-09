@@ -1,4 +1,3 @@
-import { ChildProcess } from 'child_process';
 import { Low } from 'lowdb/lib';
 import { JSONFilePreset } from 'lowdb/node';
 
