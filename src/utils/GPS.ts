@@ -20,8 +20,8 @@ const initGPS = async () => {
     if (!db.getGPS()) {
         await db.setGPS({
             currentLocation: {
-                lat: 0,
-                lng: 0
+                lat: 23.0261316,
+                lng: 72.5560948
             },
             destination: {
                 lat: 0,
