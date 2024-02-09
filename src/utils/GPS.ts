@@ -3,7 +3,7 @@ import { ReadlineParser } from '@serialport/parser-readline';
 import GPS, { RMC } from 'gps';
 import axios from 'axios';
 import { appendFileSync, readFileSync } from 'fs';
-import getDB, { DBGPS } from './DB.js';
+import getDB, { DBGPS } from './DB';
 
 let makeAPICall = true;
 
