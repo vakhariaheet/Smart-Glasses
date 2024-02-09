@@ -1,5 +1,5 @@
 
-import getDB, { DBGPS, Step, LatLng } from "./DB";
+import getDB, { DBGPS, Step, LatLng } from "./DB.js";
 import { playSpeech, textToSpeech } from "./TextToSpeech";
 import { convert } from "html-to-text";
 interface PlacesAPIResponse {

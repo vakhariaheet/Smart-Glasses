@@ -1,6 +1,5 @@
-import { Low } from 'lowdb/lib';
-import { JSONFilePreset } from 'lowdb/node';
-
+import low from 'lowdb';
+import FileSync from 'lowdb/adapters/FileSync';
 interface User {
     id: string;
     name: string;
@@ -48,7 +47,7 @@ interface DBType {
     gps: DBGPS | null;
 }
 
-export type DBPreset = Low<DBType>;
+export type DBPreset = low.LowdbSync<DBType>;
 
 class DB {
     private db: DBPreset;
@@ -58,46 +57,33 @@ class DB {
     }
 
     public getUser(): User | null {
-        return this.db.data.user;
+        return this.db.get('user').value();
     }
 
     public async setUser(user: User): Promise<void> {
-        await this.db.update((data) => {
-            data.user = user;
-            return data;
-        });
+        await this.db.set('user', user).write();
 
     }
 
     public getCurrentProcessId(): number | null {
-        return this.db.data.currentProcessId;
+        return this.db.get('currentProcessId').value();
     }
 
     public async setCurrentProcessId(processId: number | null): Promise<void> {
-        await this.db.update((data) => {
-            data.currentProcessId = processId;
-            return data;
-        });
+        await this.db.set('currentProcessId', processId).write();
     }
 
     public getGPS(): DBGPS | null {
-        return this.db.data.gps;
+        return this.db.get('gps').value();
     }
 
     public async setGPS(gps: DBGPS): Promise<void> {
-        await this.db.update((data) => {
-            data.gps = gps;
-            return data;
-        });
+        await this.db.set('gps', gps).write();
     }
 }
 
 const getDB = async () => {
-    const db = await JSONFilePreset<DBType>('db.json', {
-        user: null,
-        currentProcessId: null,
-        gps: null
-    })
+    const db = await low(new FileSync<DBType>('db.json'));
 
     return new DB(db);
 }
