@@ -65,7 +65,7 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
     }
     case 'maps':
       {
-        const place = entities[ 'wit$location:location' ][ 0 ].body;
+        const place = transcribe.replace(/Directions of /i, '');
         console.log(place);
         await textToSpeech(`Getting directions to ${place}`);
         await playSpeech();
