@@ -89,6 +89,7 @@ export const getPlaceInfo = async (q: string) => {
     const data = await response.json() as PlacesAPIResponse;
 
     const firstPlace = data.predictions[ 0 ];
+    console.log(firstPlace.description, firstPlace.place_id);
     const directionsResp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${latLong}&destination=place_id:${firstPlace.place_id}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
     const directionsData = await directionsResp.json() as DirectionsAPIResponse;
     if (directionsData.routes.length === 0) {
