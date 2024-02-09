@@ -8,7 +8,6 @@ import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
 import { initWifi } from './utils/Wifi';
-import DB from './utils/DB';
 import getDB from './utils/DB';
 const touchSensor = new Gpio(17, 'in', 'both');
 const irSensor = new Gpio(27, 'in', 'falling');
