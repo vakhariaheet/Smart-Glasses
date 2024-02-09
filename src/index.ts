@@ -44,14 +44,15 @@ const tapHandler = async (count: number) => {
 			console.log('Recording stopped');
 
 			const resp = await stopRecord(recording);
-			// if (!resp.isSuccess) {
-			// 	isACommandRunning = false;
-			// 	currentStatus = '';
-			// 	console.log(resp.transcribe);
-			// 	await textToSpeech('Sorry, I did not get that');
-			// 	await playSpeech();
-			// 	return;
-			// }
+			if (!resp.isSuccess) {
+				isACommandRunning = false;
+				currentStatus = '';
+				console.log(resp.transcribe);
+				await textToSpeech('Sorry, I did not get that');
+				await playSpeech();
+				return;
+			}
+
 			await handleIntent(resp.intents, resp.entities, resp.transcribe);
 			currentStatus = '';
 			isACommandRunning = false;
