@@ -3,6 +3,7 @@ import { ReadlineParser } from '@serialport/parser-readline';
 import GPS, { RMC } from 'gps';
 import axios from 'axios';
 import { appendFileSync, readFileSync } from 'fs';
+import getDB, { DBGPS } from './DB';
 
 let makeAPICall = true;
 
@@ -15,11 +16,41 @@ const initGPS = async () => {
 
     const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
     const gps = new GPS
-
+    const db = await getDB();
+    if (!db.getGPS()) {
+        await db.setGPS({
+            currentLocation: {
+                lat: 0,
+                lng: 0
+            },
+            destination: {
+                lat: 0,
+                lng: 0
+            },
+            destinationName: '',
+            destinationPlaceId: '',
+            distance: 0,
+            isConfirmed: false,
+            steps: [],
+            currentStepIndex: 0,
+            origin: {
+                lat: 0,
+                lng: 0
+            }
+        });
+    }
     gps.on('data', async (data: RMC) => {
         try {
             if (data.type !== 'RMC' || (!data.lat || !data.lon)) return;
             appendFileSync('gps.log', JSON.stringify(data) + '\n');
+            const gps = db.getGPS() as DBGPS;
+            await db.setGPS({
+                ...gps,
+                currentLocation: {
+                    lat: data.lat,
+                    lng: data.lon
+                }
+            })
             if (!makeAPICall) return;
             const userId = readFileSync('currentUserId.txt', 'utf8');
             console.log('Sending GPS data');
