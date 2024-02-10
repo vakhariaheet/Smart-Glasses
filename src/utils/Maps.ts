@@ -115,9 +115,10 @@ export const getPlaceInfo = async (q: string) => {
         }
     }
     await (await getDB()).setGPS(newGPS);
+
     await textToSpeech(`Destination set to ${convert(firstPlace.description)}`);
     await playSpeech();
-    await textToSpeech(gps.steps[ 0 ].html_instructions);
+    await textToSpeech(convert(gps.steps[ 0 ].html_instructions));
     await playSpeech();
 }
 

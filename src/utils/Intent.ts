@@ -58,8 +58,10 @@ const handleIntent = async (intents: Intent[], entities: Record<string, Array<En
     case 'currency': {
       await capture();
       await textToSpeech('Detecting currency');
+      const pro = playSpeechSync('./src/assets/sfx/loading.mp3', true);
       const text = await detectCurrency('test.jpeg');
       await textToSpeech(text);
+      pro.kill();
       await playSpeech();
       break;
     }

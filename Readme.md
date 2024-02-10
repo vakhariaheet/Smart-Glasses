@@ -4,7 +4,6 @@
 
 This project is a prototype of a smart glasses. The glasses will help blind people to navigate.
 
-
 ## Hardware
 
 The hardware used for this project is the following:
@@ -34,6 +33,7 @@ The pin configuration is the following:
    - Pin 1(VCC): 5V
    - Pin 2(DATA): GPIO 27
    - Pin 3(GND): GND
+
 ## Software
 
 ### Installation
@@ -76,4 +76,12 @@ The pin configuration is the following:
 - [Nodejs](https://nodejs.org/en/)
 - [Configuring Wifi and Bluetooth in Raspberry PI ](https://www.digikey.in/en/maker/tutorials/2016/raspberry-pi-wi-fi-bluetooth-setup-how-to-configure-your-pi-4-model-b-3-model-b)
 
+### Errors
 
+bcm2835_init: Unable to open /dev/gpiomem: Permission denied
+This error occurs when the user does not have permission to access the GPIO pins. To resolve this error, run the following command:
+
+```bash
+sudo usermod -a -G gpio $USER
+sudo chmod o+rw /dev/gpiomem
+```
