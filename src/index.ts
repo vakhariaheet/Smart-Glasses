@@ -86,30 +86,37 @@ const singleTapHandler = async () => {
 		Current Elapsed Time: ${Date.now() - startTime}ms
 	`);
 	const loadingProccess = playSpeechSync('./src/assets/sfx/loading.mp3', true);
-	await (await getDB()).setCurrentProcessId(loadingProccess.pid || null);
-	console.log('Image captured');
-	const text = await imageToText('test.jpeg');
-	const textClickTime = Date.now();
-	console.log(`
-		Time taken to generate text: ${textClickTime - imageClickTime}ms
-		Current Elapsed Time: ${Date.now() - startTime}ms
-	`);
-	console.log('Text generated');
-	console.log('Converting text to speech...');
-	await textToSpeech(text);
-	const speechClickTime = Date.now();
-	console.log(`
-		Time taken to generate speech: ${speechClickTime - textClickTime}ms
-		Current Elapsed Time: ${Date.now() - startTime}ms
-	`);
-	console.log('Speech generated');
-	console.log('Playing speech...');
-	loadingProccess.kill();
-	await (await getDB()).setCurrentProcessId(null);
-	await playSpeech();
-	console.log('Text spoken');
-	currentStatus = '';
-	isACommandRunning = false;
+	try {
+
+		await (await getDB()).setCurrentProcessId(loadingProccess.pid || null);
+		console.log('Image captured');
+		const text = await imageToText('test.jpeg');
+		const textClickTime = Date.now();
+		console.log(`
+			Time taken to generate text: ${textClickTime - imageClickTime}ms
+			Current Elapsed Time: ${Date.now() - startTime}ms
+		`);
+		console.log('Text generated');
+		console.log('Converting text to speech...');
+		await textToSpeech(text);
+		const speechClickTime = Date.now();
+		console.log(`
+			Time taken to generate speech: ${speechClickTime - textClickTime}ms
+			Current Elapsed Time: ${Date.now() - startTime}ms
+		`);
+		console.log('Speech generated');
+		console.log('Playing speech...');
+		loadingProccess.kill();
+		await (await getDB()).setCurrentProcessId(null);
+		await playSpeech();
+		console.log('Text spoken');
+		currentStatus = '';
+		isACommandRunning = false;
+	}
+	catch (err) {
+		console.log(err);
+
+	}
 }
 
 process.on('SIGINT', () => {
