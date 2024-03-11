@@ -115,7 +115,7 @@ const singleTapHandler = async () => {
 	}
 	catch (err) {
 		console.log(err);
-
+		loadingProccess.kill();
 	}
 }
 
