@@ -1,4 +1,4 @@
-import { StillCamera } from 'pi-camera-connect';
+import { StillCamera } from '@mdebeljuh/pi-camera-connect';
 import { playSpeech } from './TextToSpeech';
 import { writeFile } from 'fs/promises';
 const capture = async (name = 'test.jpeg') => {
