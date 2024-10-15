@@ -1,9 +1,11 @@
-import { StillCamera } from '@mdebeljuh/pi-camera-connect';
+import { libcamera } from 'libcamera';
 import { playSpeech } from './TextToSpeech';
-import { writeFile } from 'fs/promises';
 const capture = async (name = 'test.jpeg') => {
-    const respBuffer = await new StillCamera({}).takeImage();
-    await writeFile(name, respBuffer);
+    await libcamera.still({
+        config: {
+            output: name,
+        }
+    })
     await playSpeech('./src/assets/sfx/capture.mp3');
     return name;
 };
