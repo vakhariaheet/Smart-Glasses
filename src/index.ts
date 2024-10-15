@@ -1,16 +1,18 @@
-import { Gpio } from 'onoff';
+import { Gpio } from 'pigpio';
 import capture from './utils/ImageCapture';
 import imageToText from './utils/Bard';
 import { textToSpeech, playSpeech, playSpeechSync } from './utils/TextToSpeech';
-import { readTemperature } from './utils/Temperature';
 import initGPS from './utils/GPS';
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
 import { initWifi } from './utils/Wifi';
 import getDB from './utils/DB';
-const touchSensor = new Gpio(17, 'in', 'both');
-const irSensor = new Gpio(27, 'in', 'falling');
+const touchSensor = new Gpio(22, {
+	mode: Gpio.INPUT,
+	pullUpDown: Gpio.PUD_DOWN,
+	alert: true
+});
 
 let timer: NodeJS.Timeout;
 let count = 0;
@@ -20,11 +22,9 @@ let recording: any = null;
 initGPS();
 startBLE();
 initWifi();
-touchSensor.watch(async (err, value) => {
-	if (err) {
-		throw err;
-	}
-	if (value) {
+
+const handleStateChange = (level: number) => { 
+	if (level === 1) {
 		count++;
 		clearTimeout(timer);
 		timer = setTimeout(async () => {
@@ -32,7 +32,9 @@ touchSensor.watch(async (err, value) => {
 			count = 0;
 		}, 300)
 	}
-});
+}
+
+touchSensor.on('alert', handleStateChange);
 
 const tapHandler = async (count: number) => {
 	if (currentStatus === 'Capturing') return;
@@ -120,8 +122,7 @@ const singleTapHandler = async () => {
 }
 
 process.on('SIGINT', () => {
-	touchSensor.unexport();
-	irSensor.unexport();
+	touchSensor.off('alert',handleStateChange);
 	process.exit();
 });
 

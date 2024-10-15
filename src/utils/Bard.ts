@@ -19,14 +19,7 @@ async function imageToText(image: string) {
 	// For text-and-image input (multimodal), use the gemini-pro-vision model
 	const model = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
 	console.log(`Generating...`)
-	const prompt = `Describe this image in detail, Keep in mind a few points 
-     1.generate like a person is narrating to a blind person
-     2.It needs to be extremely detailed
-     3.The person shouldn't know you are narrating from an image
-	 4.Don't use any words that are not in the image
-	 5.Don't over describe the image
-	 6.Text should be short and precise under 100 words
-	 `;
+	const prompt = `Describe this scene as if narrating to someone who can't see it. Be detailed but natural, avoiding any mention of an image. Use only elements present in the scene. Keep your description concise, under 100 words, while capturing the essence of what's visible.`;
 
 	const imageParts = [
 		fileToGenerativePart(image, 'image/jpeg'),
