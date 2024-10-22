@@ -42,9 +42,12 @@ class RGBLed {
             { r: 0, g: 0, b: 0 }       // Off
         ];
 
-        for (const color of colors) {
-            this.setColor(color);
-            await this.delay(1000);
+        // Infinite loop
+        while (true) {
+            for (const color of colors) {
+                this.setColor(color);
+                await this.delay(1000);
+            }
         }
     }
 
