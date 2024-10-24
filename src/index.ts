@@ -124,7 +124,8 @@ const singleTapHandler = async () => {
 }
 
 process.on('SIGINT', () => {
-	touchSensor.off('alert',handleStateChange);
+	touchSensor.off('alert', handleStateChange);
+	RGB.setColor({ r: 255, g: 0, b: 0 });
 	process.exit();
 });
 
