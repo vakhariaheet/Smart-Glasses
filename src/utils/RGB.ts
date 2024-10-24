@@ -17,9 +17,9 @@ class RGB {
         this.blueLED = new Gpio(PINS.LED_BLUE, { mode: Gpio.OUTPUT });
     }
     setColor(color:RGBColor) {
-        this.redLED.pwmWrite(255 - color.r);
-        this.greenLED.pwmWrite(255 - color.g);
-        this.blueLED.pwmWrite(255 - color.b);
+        this.redLED.pwmWrite(color.r);
+        this.greenLED.pwmWrite(color.g);
+        this.blueLED.pwmWrite(color.b);
     }
     turnOff() {
         this.setColor({ r: 255, g: 255, b: 255 });

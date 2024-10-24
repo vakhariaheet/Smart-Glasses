@@ -10,7 +10,7 @@ import { startBLE } from './utils/BLE';
 import { initWifi } from './utils/Wifi';
 import getDB from './utils/DB';
 import { PINS } from './constants/pins';
-RGB.setColor({ r: 0, g: 255, b: 255 });
+RGB.setColor({ r: 255, b: 0, g: 0 });
 const touchSensor = new Gpio(PINS.TOUCH, {
 	mode: Gpio.INPUT,
 	pullUpDown: Gpio.PUD_DOWN,
@@ -76,7 +76,7 @@ const tapHandler = async (count: number) => {
 	}
 
 }
-RGB.setColor({ r: 0, g: 255, b: 0 });
+RGB.setColor({ r: 0, g: 255, b: 0 })
 const singleTapHandler = async () => {
 	isACommandRunning = true;
 	currentStatus = 'Capturing';
@@ -125,7 +125,7 @@ const singleTapHandler = async () => {
 
 process.on('SIGINT', () => {
 	touchSensor.off('alert', handleStateChange);
-	RGB.setColor({ r: 0, g: 255, b: 255 });
+	RGB.setColor({ r: 255, g: 0, b: 0 });
 	process.exit();
 });
 
