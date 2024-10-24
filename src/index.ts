@@ -3,17 +3,19 @@ import capture from './utils/ImageCapture';
 import imageToText from './utils/Bard';
 import { textToSpeech, playSpeech, playSpeechSync } from './utils/TextToSpeech';
 import initGPS from './utils/GPS';
+import RGB from './utils/RGB';
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
 import { initWifi } from './utils/Wifi';
 import getDB from './utils/DB';
-const touchSensor = new Gpio(22, {
+import { PINS } from './constants/pins';
+RGB.setColor({ r: 0, g: 255, b: 255 });
+const touchSensor = new Gpio(PINS.TOUCH, {
 	mode: Gpio.INPUT,
 	pullUpDown: Gpio.PUD_DOWN,
 	alert: true
 });
-
 let timer: NodeJS.Timeout;
 let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
@@ -74,7 +76,7 @@ const tapHandler = async (count: number) => {
 	}
 
 }
-
+RGB.setColor({ r: 0, g: 255, b: 0 });
 const singleTapHandler = async () => {
 	isACommandRunning = true;
 	currentStatus = 'Capturing';

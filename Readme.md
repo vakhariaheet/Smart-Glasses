@@ -5,6 +5,7 @@ Table of Contents
 - [Features](#features)
 - [Hardware](#hardware)
 - [Pin Configuration](#pin-configuration)
+- [RGB State:](#rgb-state)
 - [Software](#software)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -81,7 +82,16 @@ The pin configuration is the following:
    - Pin 1(VCC): 5V
    - Pin 2(DATA): GPIO 27
    - Pin 3(GND): GND
-
+5. RGB 
+   - Pin 1(Red): GPIO 16
+   - Pin 2(Blue): GPIO 20
+   - Pin 3(Green): GPIO 21
+   - Pin 4(Cathode): GND
+## RGB State:
+- App Starting
+- Ready
+- Internet not Connected 
+- 
 ## Software
 
 ### Installation

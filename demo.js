@@ -1,17 +1,6 @@
-import { Gpio } from 'pigpio';
-
-// Define interface for RGB color
-interface RGBColor {
-	r: number;
-	g: number;
-	b: number;
-}
+const Gpio = require('pigpio').Gpio;
 
 class RGBLed {
-	private redLED: Gpio;
-	private greenLED: Gpio;
-	private blueLED: Gpio;
-
 	constructor() {
 		// Initialize pins - define them as output
 		this.redLED = new Gpio(16, { mode: Gpio.OUTPUT });
@@ -20,7 +9,7 @@ class RGBLed {
 	}
 
 	// Set color method (values from 0-255)
-	public setColor(color: RGBColor): void {
+	setColor(color) {
 		// Invert values for common anode
 		this.redLED.pwmWrite(255 - color.r);
 		this.greenLED.pwmWrite(255 - color.g);
@@ -28,10 +17,10 @@ class RGBLed {
 	}
 
 	// Turn off all LEDs
-	public turnOff(): void {
-		this.setColor({ r: 0, g: 0, b: 0 });
+	turnOff() {
+		this.setColor({ r: 254, g: 254, b: 254 });
 	}
-	public generateRandomColor(): RGBColor {
+	generateRandomColor() {
 		return {
 			r: Math.floor(Math.random() * 256),
 			g: Math.floor(Math.random() * 256),
@@ -39,20 +28,47 @@ class RGBLed {
 		};
 	}
 	// Example color sequence
-	public async showColors(): Promise<void> {
-		// Infinite loop
-		while (true) {
+	async showColors() {
+        count = 0;
+		while (count < 5) {
 			this.setColor(this.generateRandomColor());
-			await this.delay(1000);
-		}
+            await this.delay(1000);
+            this.fade(this.generateRandomColor(), 1000);
+            await this.delay(1000);
+            count++;
+        }
+        this.setColor({r:254, g:254, b:254});
+	}
+	// Add to the RGBLed class
+	async fade(color, duration) {
+		return new Promise((resolve) => {
+			const steps = 100;
+			const interval = duration / steps;
+			let step = 0;
+
+			const timer = setInterval(() => {
+				if (step >= steps) {
+					clearInterval(timer);
+					resolve();
+					return;
+				}
+
+				const r = Math.floor((color.r * step) / steps);
+				const g = Math.floor((color.g * step) / steps);
+				const b = Math.floor((color.b * step) / steps);
+
+				this.setColor({ r, g, b });
+				step++;
+			}, interval);
+		});
 	}
 
-	private delay(ms: number): Promise<void> {
+	delay(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 
 	// Cleanup method
-	public cleanup(): void {
+	cleanup() {
 		this.turnOff();
 	}
 }
