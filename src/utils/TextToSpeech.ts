@@ -39,7 +39,7 @@ const playSpeechSync = (path?: string, loop?: boolean) => {
     const player = PlaySound({
         player: 'mplayer',
     });
-    const playOptions = loop ? { mplayer: [ '-loop', '999' , '-ao' ,'pulse' ] } : {};
+    const playOptions = loop ? { mplayer: [ '-loop', '999' ] } : {};
 
     const childProcess = player.play(path || "welcome.mp3", playOptions, (err) => {
         if (err) {

@@ -21,10 +21,12 @@ let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
 let isACommandRunning = false;
 let recording: any = null;
-// initGPS();
+initGPS();
 startBLE();
 initWifi();
-
+(async () => {
+	await playSpeech('./src/assets/sfx/capture.mp3');
+ })();
 const handleStateChange = (level: number) => { 
 	if (level === 1) {
 		count++;
