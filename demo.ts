@@ -5,5 +5,4 @@ const player = Player({
 });
 player.play('welcome.mp3', {}, (err) => {
     if (err) throw err;
-    
 })
