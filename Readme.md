@@ -83,9 +83,9 @@ The pin configuration is the following:
    - Pin 2(DATA): GPIO 27
    - Pin 3(GND): GND
 5. RGB 
-   - Pin 1(Red): GPIO 16
-   - Pin 2(Blue): GPIO 20
-   - Pin 3(Green): GPIO 21
+   - Pin 1(Red)(Orange Cable): GPIO 16
+   - Pin 2(Blue(Red Cable)): GPIO 20
+   - Pin 3(Green)(Brown Cable): GPIO 21
    - Pin 4(Cathode): GND
 ## RGB State:
 - App Starting

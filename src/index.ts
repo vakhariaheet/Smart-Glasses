@@ -76,7 +76,7 @@ const tapHandler = async (count: number) => {
 	}
 
 }
-RGB.setColor({ r: 0, g: 255, b: 0 })
+RGB.setColor({ r: 0, g: 0, b: 255 })
 const singleTapHandler = async () => {
 	isACommandRunning = true;
 	currentStatus = 'Capturing';

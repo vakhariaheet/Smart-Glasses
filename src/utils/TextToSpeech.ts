@@ -10,6 +10,7 @@ const textToSpeech = async (text: string, lang = 'en') => {
         return new Promise((resolve, reject) => {
             tts.save('welcome.mp3', function (err: any, result: any) {
                 if (err) {
+                    
                     console.error(err);
                     reject(err);
                 }
@@ -24,9 +25,7 @@ const textToSpeech = async (text: string, lang = 'en') => {
 }
 
 const playSpeech = async (path?: string) => new Promise((resolve, reject) => {
-    const player = PlaySound({
-        player: 'mplayer'
-    });
+    const player = PlaySound();
     player.play(path || 'welcome.mp3', function (err) {
         if (err) throw err
         resolve("Done");
@@ -35,14 +34,13 @@ const playSpeech = async (path?: string) => new Promise((resolve, reject) => {
 });
 
 const playSpeechSync = (path?: string, loop?: boolean) => {
-    const player = PlaySound({
-        player: 'mplayer'
-    });
-    const playOptions = loop ? { mplayer: [ '-loop', '999' ] } : {};
+    const player = PlaySound();
+    // const playOptions = loop ? { mplayer: [ '-loop', '999' ] } : {};
 
-    const childProcess = player.play(path || "welcome.mp3", playOptions, (err) => {
+    const childProcess = player.play(path || "welcome.mp3", {}, (err) => {
         if (err) {
             console.error('Error playing sound:', err);
+
         }
     });
 
