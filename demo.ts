@@ -1,77 +1,9 @@
-import { Gpio } from 'pigpio';
+import Player from 'play-sound';
 
-// Define interface for RGB color
-interface RGBColor {
-	r: number;
-	g: number;
-	b: number;
-}
-
-class RGBLed {
-	private redLED: Gpio;
-	private greenLED: Gpio;
-	private blueLED: Gpio;
-
-	constructor() {
-		// Initialize pins - define them as output
-		this.redLED = new Gpio(16, { mode: Gpio.OUTPUT });
-		this.greenLED = new Gpio(20, { mode: Gpio.OUTPUT });
-		this.blueLED = new Gpio(21, { mode: Gpio.OUTPUT });
-	}
-
-	// Set color method (values from 0-255)
-	public setColor(color: RGBColor): void {
-		// Invert values for common anode
-		this.redLED.pwmWrite(255 - color.r);
-		this.greenLED.pwmWrite(255 - color.g);
-		this.blueLED.pwmWrite(255 - color.b);
-	}
-
-	// Turn off all LEDs
-	public turnOff(): void {
-		this.setColor({ r: 0, g: 0, b: 0 });
-	}
-	public generateRandomColor(): RGBColor {
-		return {
-			r: Math.floor(Math.random() * 256),
-			g: Math.floor(Math.random() * 256),
-			b: Math.floor(Math.random() * 256),
-		};
-	}
-	// Example color sequence
-	public async showColors(): Promise<void> {
-		// Infinite loop
-		while (true) {
-			this.setColor(this.generateRandomColor());
-			await this.delay(1000);
-		}
-	}
-
-	private delay(ms: number): Promise<void> {
-		return new Promise((resolve) => setTimeout(resolve, ms));
-	}
-
-	// Cleanup method
-	public cleanup(): void {
-		this.turnOff();
-	}
-}
-
-// Main execution
-async function main() {
-	const rgbLed = new RGBLed();
-
-	try {
-		await rgbLed.showColors();
-	} catch (error) {
-		console.error('Error:', error);
-	}
-
-	// Handle cleanup on program exit
-	process.on('SIGINT', () => {
-		rgbLed.cleanup();
-		process.exit();
-	});
-}
-
-main();
+const player = Player({
+    player: 'mplayer'
+});
+player.play('welcome.mp3', {}, (err) => {
+    if (err) throw err;
+    
+})
