@@ -1,2 +1,6 @@
-const sound = require("sound-play");
-sound.play("welcome.mp3");
+const Player = require('play-sound');
+
+const player = new Player({
+    player: 'mplayer'
+});
+player.play('welcome.mp3');
