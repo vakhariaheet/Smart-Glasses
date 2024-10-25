@@ -24,16 +24,27 @@ const textToSpeech = async (text: string, lang = 'en') => {
 
 }
 
-const playSpeech = async (path?: string) => new Promise((resolve, reject) => {
-    const player = PlaySound({
-        player: 'mplayer'
-    });
-    player.play(path || 'welcome.mp3', function (err) {
-        if (err) throw err
-        resolve("Done");
-    })
+interface PlaySoundOptions {
+    player?: string;
+    opts?: Record<string, any>;
+}
 
-});
+const playSpeech = async (
+    path?: string, 
+    options: Partial<PlaySoundOptions> = { player: 'mplayer' }
+): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const player = PlaySound(options as any);
+        
+        player.play(path || 'welcome.mp3', (err: Error | null) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve("Done");
+        });
+    });
+};
 
 const playSpeechSync = (path?: string, loop?: boolean) => {
     const player = PlaySound({

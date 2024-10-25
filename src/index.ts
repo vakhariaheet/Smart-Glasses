@@ -5,7 +5,7 @@ import { textToSpeech, playSpeech, playSpeechSync } from './utils/TextToSpeech';
 import initGPS from './utils/GPS';
 import RGB from './utils/RGB';
 import PlaySound from 'play-sound';
-import { exec } from 'child_process';
+
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
@@ -26,23 +26,21 @@ let recording: any = null;
 // initGPS();
 startBLE();
 initWifi();
-
-try {
-	const pid = exec('mplayer welcome.mp3', (err, out) => {
-		if (err) {
-			console.log(err);
-		}
-		else {
-			console.log('----------------------------');
-			console.log(out);
-		}
-	})
-	console.log('PID:', pid.pid);
-} catch (err) {
-	console.log(err);
-}
-
-const handleStateChange = (level: number) => {
+(async () => {
+	try {
+		const player = PlaySound({
+			player: 'mplayer'
+		});
+		player.play('welcome.mp3', { timeout: 300 }, function(err){
+			if (err) throw err
+		  })
+		await playSpeech('./src/assets/sfx/capture.mp3');
+		console.log('fdsfdkj');
+	} catch (err) {
+		console.log(err);
+	}
+ })();
+const handleStateChange = (level: number) => { 
 	if (level === 1) {
 		count++;
 		clearTimeout(timer);
