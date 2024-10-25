@@ -4,6 +4,8 @@ import imageToText from './utils/Bard';
 import { textToSpeech, playSpeech, playSpeechSync } from './utils/TextToSpeech';
 import initGPS from './utils/GPS';
 import RGB from './utils/RGB';
+import PlaySound from 'play-sound';
+
 import { startRecord, stopRecord } from './utils/Record';
 import handleIntent from './utils/Intent';
 import { startBLE } from './utils/BLE';
@@ -26,7 +28,12 @@ startBLE();
 initWifi();
 (async () => {
 	try {
+		const player = PlaySound({
+			player: 'mplayer'
+		});
+		player.play('welcome.mp3');
 		await playSpeech('./src/assets/sfx/capture.mp3');
+		console.log('fdsfdkj');
 	} catch (err) {
 		console.log(err);
 	}
