@@ -31,7 +31,9 @@ initWifi();
 		const player = PlaySound({
 			player: 'mplayer'
 		});
-		player.play('welcome.mp3');
+		player.play('welcome.mp3', { timeout: 300 }, function(err){
+			if (err) throw err
+		  })
 		await playSpeech('./src/assets/sfx/capture.mp3');
 		console.log('fdsfdkj');
 	} catch (err) {
