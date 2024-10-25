@@ -26,23 +26,23 @@ let recording: any = null;
 // initGPS();
 startBLE();
 initWifi();
-(async () => {
-	try {
-		exec('mplayer welcome.mp3', (err, out) => {
-			if (err) {
-				console.log(err);
-			}
-			else {
-				console.log('----------------------------');
-				console.log(out);
-			}
-		})
-		console.log('fdsfdkj');
-	} catch (err) {
-		console.log(err);
-	}
- })();
-const handleStateChange = (level: number) => { 
+
+try {
+	const pid = exec('mplayer welcome.mp3', (err, out) => {
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log('----------------------------');
+			console.log(out);
+		}
+	})
+	console.log('PID:', pid.pid);
+} catch (err) {
+	console.log(err);
+}
+
+const handleStateChange = (level: number) => {
 	if (level === 1) {
 		count++;
 		clearTimeout(timer);
