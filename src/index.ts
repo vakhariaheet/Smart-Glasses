@@ -25,7 +25,11 @@ initGPS();
 startBLE();
 initWifi();
 (async () => {
-	await playSpeech('./src/assets/sfx/capture.mp3');
+	try {
+		await playSpeech('./src/assets/sfx/capture.mp3');
+	} catch (err) {
+		console.log(err);
+	}
  })();
 const handleStateChange = (level: number) => { 
 	if (level === 1) {
