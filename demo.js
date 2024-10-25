@@ -6,7 +6,7 @@ const player = Player({
 })
 
 
-player.play('welcome.mp3', { timeout: 300 }, function (err) {
+player.play('welcome.mp3', function (err) {
     if (err) {
         throw err;
     }
