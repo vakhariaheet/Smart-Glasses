@@ -21,7 +21,7 @@ let count = 0;
 let currentStatus: 'Capturing' | 'Recording' | '' = '';
 let isACommandRunning = false;
 let recording: any = null;
-initGPS();
+// initGPS();
 startBLE();
 initWifi();
 (async () => {
