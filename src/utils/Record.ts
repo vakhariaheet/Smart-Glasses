@@ -13,7 +13,9 @@ export const startRecord = async () => {
         silence: '1.0',
         audioType: 'wav',
     });
-
+    recorder.on('error', (err:any) => {
+        console.log(err);
+    })
     recording
         .stream()
         .pipe(file)
